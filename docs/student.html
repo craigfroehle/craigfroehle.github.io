@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EMERGENCY! – Student Guide</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --red:        #c0392b;
+      --red-dark:   #96281b;
+      --red-light:  #f5e6e5;
+      --ink:        #1a1a1a;
+      --ink-mid:    #4a4a4a;
+      --ink-light:  #888;
+      --paper:      #faf8f5;
+      --paper-mid:  #f0ece5;
+      --paper-dark: #e2dbd0;
+      --white:      #ffffff;
+
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body:    'Source Serif 4', Georgia, serif;
+
+      --max-width: 900px;
+      --gutter:    clamp(1.5rem, 5vw, 3rem);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 18px; }
+
+    body {
+      background-color: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-body);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { display: block; max-width: 100%; height: auto; border-radius: 4px; }
+
+    a { color: var(--red); text-decoration: underline; text-underline-offset: 3px; }
+    a:hover { color: var(--red-dark); }
+
+    .site-wrap {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+
+    /* ── HEADER ── */
+    header { background-color: var(--ink); color: var(--white); }
+
+    .header-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 3rem var(--gutter) 2.5rem;
+    }
+
+    .site-label {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 10vw, 5.5rem);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+
+    .tagline {
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--paper-dark);
+      max-width: 80ch;
+      margin-bottom: 2rem;
+    }
+
+    .rule { width: 4rem; height: 4px; background: var(--red); border: none; margin: 0; }
+
+    /* Audience switcher in header */
+    .audience-switch {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .audience-switch span {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      color: var(--ink-light);
+      text-transform: uppercase;
+    }
+
+    .audience-switch a {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.3rem 0.8rem;
+      border-radius: 3px;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .audience-switch a.active {
+      background: var(--red);
+      color: var(--white);
+    }
+
+    .audience-switch a.inactive {
+      border: 1px solid var(--ink-light);
+      color: var(--ink-light);
+    }
+
+    .audience-switch a.inactive:hover {
+      border-color: var(--paper-dark);
+      color: var(--paper-dark);
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--paper-mid);
+      border-bottom: 2px solid var(--paper-dark);
+    }
+
+    .nav-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      display: inline-block;
+      padding: 0.75rem 1.1rem;
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      color: var(--ink-mid);
+      border-bottom: 3px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    nav a:hover { color: var(--red); border-bottom-color: var(--red); }
+
+    /* ── MAIN ── */
+    main { padding: 3rem 0 5rem; }
+    section { margin-bottom: 4rem; }
+
+    h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      margin-bottom: 0.4rem;
+      padding-top: 1rem;
+    }
+
+    h2::after {
+      content: '';
+      display: block;
+      width: 2.5rem;
+      height: 3px;
+      background: var(--red);
+      margin-top: 0.45rem;
+      margin-bottom: 1.2rem;
+    }
+
+    h3 {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      letter-spacing: 0.06em;
+      color: var(--ink);
+      margin: 2rem 0 0.6rem;
+    }
+
+    p { margin-bottom: 1.1rem; max-width: 90ch; }
+
+    figure {
+      margin: 2rem 0;
+      background: var(--paper-mid);
+      border: 1px solid var(--paper-dark);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    figure img { width: 100%; border-radius: 0; }
+
+    figcaption {
+      padding: 0.7rem 1rem;
+      font-size: 0.85rem;
+      color: var(--ink-light);
+      font-style: italic;
+      border-top: 1px solid var(--paper-dark);
+    }
+
+    .callout {
+      background: var(--red-light);
+      border-left: 4px solid var(--red);
+      border-radius: 0 6px 6px 0;
+      padding: 1.1rem 1.4rem;
+      margin: 2rem 0;
+      max-width: 72ch;
+    }
+    .callout p { margin-bottom: 0; }
+    .callout strong { color: var(--red-dark); }
+
+    ol.steps {
+      list-style: none;
+      counter-reset: steps;
+      padding: 0;
+      max-width: 90ch;
+    }
+
+    ol.steps li {
+      counter-increment: steps;
+      display: grid;
+      grid-template-columns: 2.5rem 1fr;
+      gap: 0.5rem 1rem;
+      margin-bottom: 1.3rem;
+      align-items: start;
+    }
+
+    ol.steps li::before {
+      content: counter(steps);
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: var(--red);
+      line-height: 1.2;
+    }
+
+	ul {
+	  padding-left: 1.5rem;
+	  margin-bottom: 1.1rem;
+	}
+	
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+      margin: 1.5rem 0 2.5rem;
+    }
+
+    thead th {
+      background: var(--ink);
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-align: left;
+      padding: 0.65rem 0.9rem;
+    }
+
+    tbody tr:nth-child(even) { background: var(--paper-mid); }
+
+    tbody td {
+      padding: 0.6rem 0.9rem;
+      border-bottom: 1px solid var(--paper-dark);
+      vertical-align: top;
+    }
+
+    code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.85em;
+      /* background: var(--paper-dark); */
+      /* padding: 0.1em 0.35em; */
+      /* border-radius: 3px; */
+      font-weight: bold;
+    }
+
+	footer {
+	  background: var(--ink);
+	  color: var(--ink-light);
+	  font-size: 0.85rem;
+	  text-align: center;
+	}
+
+	.footer-inner {
+	  max-width: var(--max-width);
+	  margin: 0 auto;
+	  padding: 2rem var(--gutter);
+	}
+
+    footer a { color: var(--paper-dark); }
+
+    @media (max-width: 600px) {
+      h1 { line-height: 1.05; }
+      nav a { padding: 0.6rem 0.7rem; font-size: 0.8rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="header-inner">
+      <p class="site-label">Educational Simulation</p>
+      <h1>Emergency!</h1>
+      <p class="tagline">Student Guide — overview, setup, and controls.</p>
+      <hr class="rule" />
+    </div>
+  </header>
+
+
+  <nav aria-label="Page sections">
+    <div class="nav-inner">
+      <a href="#overview">Overview</a>
+      <a href="#joining">Joining</a>
+      <a href="#how-to-play">How to Play</a>
+      <a href="#metrics">Metrics</a>
+<!--      <a href="#tips">Tips</a> -->
+      <a href="#faq">FAQ</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="site-wrap">
+
+      <section id="overview">
+        <h2>Overview</h2>
+        <p>
+          You have been placed in charge of a hospital’s emergency department (ED). Your first task is to make a daily staffing plan so that you stay within your operating budget, but try to avoid making patients wait. Then, you will take care of patients as they arrive each hour over a 24-hour day. You will generate revenue by caring for patients, but forcing patients to wait for care will incur penalties. Your objective in EMERGENCY! is to maximize operating profit (revenue minus expenses and penalties) by allocating staffing resources to best satisfy patient demand.</p>
+<!--        <figure>
+          <img src="placeholder-overview.png" alt="Screenshot of the Emergency! game interface" />
+          <figcaption>The main game interface — what you'll see when the simulation begins.</figcaption>
+        </figure> -->
+      </section>
+
+      <section id="joining">
+        <h2>Joining a Session</h2>
+        <p>
+          Your instructor will provide you with a session code. Here's how to get set up once you have the session code:</p>
+        <ol class="steps">
+          <li><span>Navigate to <a href="https://edgame.edutool.org/">edgame.edutool.org</a></span></li>
+          <li><span>Enter your session code and then enter your name or team name. Click "Join Game"</span></li>
+        </ol>
+		<figure>
+		  <img src="login.png" alt="Login screen" />
+		  <figcaption>The EMERGENCY! login screen.</figcaption>
+		</figure>
+        <div class="callout">
+          <p>
+            <strong>Note:</strong> The instructor and the entire class will see your name/team name, so choose wisely!
+          </p>
+        </div>
+      </section>
+
+      <section id="how-to-play">
+        <h2>How to Play</h2>
+        <h3>Staffing</h3>
+		<p>Your emergency department has 16 exam rooms that can be staffed, but not all must be staffed. Depending on the staffing level assigned to each room (which determines what kinds of patients can be cared for in it), the daily cost of keeping that room open is as follows:</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Room Staffing Level</th>
+              <th>Types of Patients Accommodated</th>
+              <th>Operating Cost (per day)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>High Acuity (A)</td>
+              <td>A, B & C</td>
+              <td>3900</td>
+            </tr>
+            <tr>
+              <td>Medium Acuity (B)</td>
+              <td>B & C</td>
+              <td>3000</td>
+            </tr>
+            <tr>
+              <td>Low Acuity (C)</td>
+              <td>C</td>
+              <td>1600</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>The average daily patient demand at your ED is as follows (unless your instructor gives you different values):
+		<ul>
+		  <li>21 A (red) patients (ESI 1 & 2; trauma/critical); each A patient occupies an A room for 4 hours</li>
+		  <li>38 B (yellow) patients (ESI 3; stable, but urgent); occupies an A or B room for 3 hours</li>
+		  <li>41 C (blue) patients (ESI 4 & 5; non-critical); occupies an A, B, or C room for 2 hours</li>
+		</ul>
+        <p>
+        <div class="callout">
+          <strong>Note:</strong> Type A patients may only be placed in level A rooms; B patients may be placed in A or B rooms; and C patients may be placed in any level of room (A, B, or C).</p>
+	    </div>
+
+        <p>Given your daily operating budget (42000, or as provided by your instructor), determine how many of each room staffing level you wish to staff. The total staffing cost across all rooms staffed must not exceed your budget.</p>
+
+        <h3>Configuring Your ED</h3>
+        <p>After signing in with your session ID and player/team name, you will see the following screen:</p>
+
+        <figure>
+          <img src="student1.png" alt="ED configuration screen" />
+          <figcaption>This is where you will use your budget to staff rooms at various staffing levels: A, B & C</figcaption>
+        </figure>
+
+        <p>For each high-acuity room you have budgeted to staff, click on the red High Acuity Room card (upper right on the screen above) to select it, then click one of the empty Exam Room spaces in the middle of screen. This will place that card on that space. It will also increase the "Budget Used" amount and decrement the "Remaining" budget amounts correspondingly.</p>
+
+        <p>Continue selecting and allocating rooms you want to staff in this manner across all three room types until either you have used up your budget or you have completed your staffing plan for the day. If you wish to remove a card from an exam room space, click the card, then click the "Remove" button that appears. When finished allocating cards to room spaces, your screen should be mostly filled with staffed exam room cards, something like what is shown below.</p>
+
+        <figure>
+          <img src="student2.png" alt="ED configuration screen" />
+          <figcaption>A completed staffing screen shows exam rooms staffed at various levels: A, B & C. Your configuration may not have staffed all 16 of the available exam rooms.</figcaption>
+        </figure>
+		
+        <div class="callout">
+          <strong>Note:</strong> Any funds from your budget that you choose not to spend will contribute to your operating profit.</p>
+	    </div>
+
+        <p>Once you are satisfied with your exam room staffing configuration, click the "Finish Staffing" button at the bottom right of the screen.</p>
+
+        <h3>New Arrivals and Caring for Patients</h3>
+        <p>Once your staffing has been set, you are ready to begin your 24-hour day of providing care to arriving patients. Each of the 24 one-hour periods that you will simulate is broken down into four phases: Patient Arrivals, Patient Allocation, Determining Wait-Related Penalties, and Caring for Patients. Each of those phases is described below.</p>
+
+        <h4>Phase 1. Patient Arrivals</h4>
+        <p>New patients arrive at the beginning of each hour. They are listed under "NEW ARRIVALS" in the <b>Turn Summary</b> area (upper right of the screen) and appear as tokens in the Waiting Room (left side of the screen). The number of each patient class (A, B & C) arriving varies from hour to hour.</p>
+
+        <figure>
+          <img src="student3.png" alt="New patient arrivals" />
+          <figcaption>New patient arrivals happen at the start of each hour.</figcaption>
+        </figure>
+
+        <div class="callout">
+          <strong>Note:</strong> In later rounds, it may happen that one or more arriving patients cannot join the waiting room because it is full. If that happens, any patients turned away that hour will be listed in the <b>Turn Summary</b> box under "TURNED AWAY".</p>
+	    </div>
+
+        <h4>Phase 2. Patient Allocation</h4>
+        <p>Now, patients in the waiting room need to be placed in available exam rooms. Only one patient may occupy an exam room. To allocate a patient to a room, first click the patient in the waiting room. This will select the patient. It will also highlight each space in available exam rooms where a patient may be placed.</p>
+
+        <figure>
+          <img src="student4.png" alt="Allocating waiting patients to available exam rooms." />
+          <figcaption>Patients arrive into exam rooms based on their acuity level: A patients arrive into the "4" spot (because they require 4 hours of care), B patients into the "3" spot, and C patients into the "2" spot.</figcaption>
+        </figure>
+
+        <p>To actually place a patient in an exam room, once you have selected a patient, click on the corresponding highlighted circle in the exam room you want to add the patient to. The patient will disappear from the waiting room and appear in the selected exam room.</p>
+
+        <div class="callout">
+          <strong>Note:</strong> While it is possible to place a B or C patient into an exam room that is staffed at a higher level of care than they require (e.g., a C patient being placed in a High-Acuity (A) room), realize that this will prevent a higher-acuity patient who arrives later and needs that level of care from using it until the current patient exits the room.</p>
+	    </div>
+
+        <p>If you have used all your possible exam rooms and/or none of the waiting patients can be accommodated, you will see a yellow alert on the right to that effect.</p>
+
+        <figure>
+          <img src="student10.png" alt="All rooms occupied" />
+          <figcaption>The "all rooms full" alert and the "Sequencing Complete" button.</figcaption>
+        </figure>
+		
+        <p>Once you are satisfied with your allocation of waiting patients to available exam rooms, click the "Sequencing Complete" button on the right side of the screen. If you still have waiting patients and there are rooms that could accommodate them, you will get a pop-up asking you to either <b>Confirm</b> that you do not want to room the patient, or <b>Cancel</b> to go back and make further allocation decisions (as shown below).</p>
+
+        <figure>
+          <img src="student5.png" alt="Confirmation pop-up" />
+          <figcaption>There are times when you may want to preserve an exam room in anticipation of future patient arrivals even though a patient already in the waiting room could receive care there.</figcaption>
+        </figure>
+
+        <h4>Phase 3. Determining Wait-Related Penalties</h4>
+        <p>Once you have allocated all your patients to rooms that you can, if there are still patients left in the waiting room, a die will be rolled next to each waiting patient. If the die determines an <b>A patient</b> has suffered a cardiac arrest (i.e., "coded") while waiting, the patient will be removed from the waiting room and taken elsewhere in the hospital for immediate care. You will incur a large penalty and lose out on the potential revenue that patient represented.</p>
+
+        <figure>
+          <img src="student6.png" alt="An A patient suffering a cardiac arrest" />
+          <figcaption>High-acuity (A) patients who suffer waiting-related harms are very expensive.</figcaption>
+        </figure>
+
+        <p>If the die determines a <b>B or C patient</b> is fed up with waiting, the patient will leave the waiting room and depart the ED without being cared for. You will incur a smaller penalty and lose out on the potential revenue that patient represented.</p>
+
+        <figure>
+          <img src="student7.png" alt="A C patient leaving without being seen" />
+          <figcaption>Patients who leave without being seen (LWBS) result in penalties and lost revenue.</figcaption>
+        </figure>
+
+        <p>You can see a summary of harmed patients, and the penalties associated with them, in the <b>Turn Summary</b> box (right side of the screen) under "RISK EVENTS".</p>
+
+        <h4>Phase 4. Caring for Patients</h4>
+        <p>After any waiting-related harms have been determined, patients are cared for and advance along the progression circles within each exam room (4 -> 3 -> 2 -> 1). Any patient who was on a (1) space in a room now completes their care and exits the ED. Those patients are listed in the <b>Turn Summary</b> box under "COMPLETED". You will earn revenue for each completed patient.</p>
+
+        <figure>
+          <img src="student8.png" alt="An A patient suffering a cardiac arrest" />
+          <figcaption>The <b>Turn Summary</b> box lists all the important events for that 1-hour round of the simulation.</figcaption>
+        </figure>
+
+        <p>The Waiting Room lists waiting patients, from top to bottom, in order of decreasing waiting time. Patients waiting longest will be at the top, and the total time each patient has waited will be shown in a small black circle on that patient's token.</p>
+
+        <h4>Ending the Round</h4>
+        <p>Once you have completed all four phases, if you are participating in a synchronous play session, you may have to wait for one or more other players/teams to catch up (see image below) before proceeding to the next hourly round and repeating these four phases. If you are playing in an asynchronous session, you will be immediately taken to the next hour's patient arrivals.</p>
+
+        <figure>
+          <img src="student9.png" alt="Waiting for others..." />
+          <figcaption>This dialog will appear when other players/teams are not yet ready to advance to the next round.</figcaption>
+        </figure>
+
+        <p>Once you have completed all 24 hourly rounds, the simulation will reveal your final performance statistics, which are discussed in the next section.</p>
+      </section>
+
+      <section id="metrics">
+        <h2>Performance Metrics</h2>
+        <p>At the end of the simulation, you will see a statistics dashboard that looks something like this:</p>
+
+        <figure>
+          <img src="inst_stats1.png" alt="Session Statistics" />
+          <figcaption>The session statistics screen gives a summary "Leaderboard" table of performance measures for each player/team (with the top three earning Gold, Silver, and Bronze medals). Below that table are graphs comparing each player/team on various metrics.</figcaption>
+        </figure>
+
+        <p>Here are definitions of key performance metrics:</p>
+		
+		        <table>
+          <thead>
+            <tr>
+              <th>Metric/Measure</th>
+              <th>Description</th>
+              <th>Better is...</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>Profit</code></td>
+              <td>Your revenue minus your staffing costs and any penalties</td>
+              <td>Higher</td>
+            </tr>
+            <tr>
+              <td><code>Util %</code></td>
+              <td>The percentage of your available capacity (room-hours) that you used to care for patients.</td>
+              <td>?</td>
+            </tr>
+            <tr>
+              <td><code>Queue (avg/max)</code></td>
+              <td>Your average and maximum waiting room census numbers.</td>
+              <td>Lower</td>
+            </tr>
+            <tr>
+              <td><code>Treated (A/B/C)</code></td>
+              <td>The number of patients, by acuity level, you treated and discharged during the simulated 24 hours.</td>
+              <td>Higher</td>
+            </tr>
+            <tr>
+              <td><code>Cardiac Arrests</code></td>
+              <td>The total number of times A patients were harmed during waiting.</td>
+              <td>Lower</td>
+            </tr>
+            <tr>
+              <td><code>Mismatch</code></td>
+              <td>The number of patients who were admitted to exam rooms above their triage level (e.g., a B patient being treated in an A room).</td>
+              <td>Lower</td>
+            </tr>
+            <tr>
+              <td><code>Max Wait (A/B/C)</code></td>
+              <td>The maximum waiting time (in hours) experienced by a member of each patient class.</td>
+              <td>Lower</td>
+            </tr>
+          </tbody>
+        </table>
+
+		
+		
+        <p>If you want to either save the team performance data as a CSV (comma-separated value) file or download the graphs as a PDF, click the corresponding button at the top of the session statistics screen.</p>
+      </section>
+
+<!--      <section id="tips">
+        <h2>Tips</h2>
+        <p>[Optional section — a few hints without spoiling the learning experience. Or omit this section entirely if you'd rather students figure it out.]</p>
+
+        <ol class="steps">
+          <li><span>[Tip 1]</span></li>
+          <li><span>[Tip 2]</span></li>
+          <li><span>[Tip 3]</span></li>
+        </ol>
+      </section> -->
+
+      <section id="faq">
+        <h2>FAQ</h2>
+
+        <h3>Shouldn't I just have all "A" rooms to make sure I have maximum flexibility?</h3>
+        <p>Flexibility is good, but, like in this simulation, it is also often rather costly. When creating your staffing plan, consider how much of your demand actually <em>requires</em> that degree of care versus how much could make use of a less-expensive alternative.</p>
+
+        <h3>If two teams have the same configuration of staffed exam rooms, will we get the same profit?</h3>
+        <p>While it's possible, it's unlikely, as the waiting-related harms aspect relies on randomness, and that is likely to produce varying outcomes across players/teams.</p>
+
+        <h3>Could I maximize my profit if I don't staff any rooms, and so then don't spend any money?</h3>
+        <p>No. You would have no capacity to care for patients, and they would stack up in the waiting room, incurring waiting penalties and waiting-induced harms. You will most assuredly <em>not</em> be profitable by using a zero-staffing approach.</p>
+
+        <h3>Should I try to maximize my ED's utilization?</h3>
+        <p>No. Systems that are highly utilized tend to be rather unresponsive to unscheduled demand requests. An ED is meant to be more responsive than efficient (unlike, say, a facility that makes goods to stock).</p>
+
+        <h3>A real ED seems more complicated than this. Why is this not exactly like a real emergency department?</h3>
+        <p>This game simulates a greatly simplified emergency department. It is not intended to incorporate most, or even many, of the complexities that occur in real EDs. Its goal is to help illustrate a few specific concepts to students, and simplifying or removing much of the real-world detail and variability helps accomplish that.</p>
+
+        <div class="callout">
+          <p>
+            <strong>Having trouble?</strong> Your instructor will be best equipped to help.
+          </p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+	<div class="footer-inner">
+      <p><b>EMERGENCY!</b> is a product of <a href="https://www.happyharpygames.com/p/emergency.html">Happy Harpy Games</a>. This online version was developed by <a href="https://business.wisc.edu/directory/profile/enno-siemsen/">Enno Siemsen</a> &amp; <a href="https://business.uc.edu/Craig-Froehle">Craig Froehle</a>. Free to use for educational purposes.
+		</p>
+    </div>
+  </footer>
+
+</body>
+</html>

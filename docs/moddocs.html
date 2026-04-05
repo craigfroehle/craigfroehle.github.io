@@ -246,6 +246,11 @@
       line-height: 1.2;
     }
 
+	ul {
+	  padding-left: 1.5rem;
+	  margin-bottom: 1.1rem;
+	}
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -432,7 +437,7 @@
             </tr>
             <tr>
               <td><code>Time Sensitive Waiting Harms</code></td>
-              <td>This option increases the cost penalty for waiting patients each hour that a patient waits.</td>
+              <td>This option increases (by 5%) the likelihood of a risk event happening for that patient each hour they wait.</td>
               <td>Off</td>
             </tr>
             <tr>
@@ -456,6 +461,11 @@
           <img src="inst_patarr1.png" alt="Default Patient Arrivals Pattern" />
           <figcaption>The "standard dataset" patient arrival pattern also sets the total daily patient arrivals back to the default values of 21, 38, and 41, regardless of what values are indicated in those parameter input fields.</figcaption>
         </figure>
+
+        <div class="callout">
+          <p>
+            <strong>Note:</strong> If you choose different values than the standard 21/38/41 arrival volumes, your students may find their EDs perform very poorly (unless you've also increased their budgets; and even then, there is a hard-coded limit of 16 total exam rooms). If these values are changed, please communicate that information to your students <em>before</em> they make their staffing decisions.</p>
+        </div>
 
 		<p><b><em>RANDOM:</em></b> If the "Regenerate Arrivals" button is clicked, the simulation will regenerate a randomized pattern of patient arrivals corresponding to the daily arrival totals indicated in the parameter input fields and show that pattern in the bar chart. Each click of the button will generate a new arrivals pattern. If more or fewer than 100 total patients are set to arrive, their relative proportions will be shown below the bar chart.</p>
 
@@ -490,7 +500,7 @@
           <figcaption>The session monitoring screen, once several students have joined. In this example, Player A is staffing their rooms, while Players B-E have finished that step and are waiting for the simulation to begin.</figcaption>
         </figure>
 
-		<p>Note in the image above that the instructor has several buttons for each team. Depending on what stage each team is, these buttons may include <b>Nudge</b> (a note flashes on that player's screen reminding them to complete their turn), <b>End</b> (the decisions for that round are automatically made for them), and <b>Kick</b> (removes that player from the session entirely). These actions are immediate and cannot be undone, so please use "End" and especially "Kick" only when circumstances require it.</p>
+		<p>Note in the image above that the instructor has several buttons for each team. Depending on what stage each team is, these buttons may include <b>Nudge</b> (a note flashes on that player's screen reminding them to complete their turn), <b>End</b> (the decisions for that round are automatically made for them, with all patients of a type assigned to available rooms of that type), and <b>Kick</b> (removes that player from the session entirely). These actions are immediate and cannot be undone, so please use "End" and especially "Kick" only when circumstances require it.</p>
 
         <figure>
           <img src="inst_sessstatus2.png" alt="Session Monitoring Screen" />
@@ -538,10 +548,10 @@
         <p>Both work, but in our experience, teams of 2 students work best for the online version of EMERGENCY! Interestingly, the physical simulation version works best with teams of 3-4 students, as each student can take on a different role (e.g., moving patient tokens), many of which are automated in the online version.</p>
 
         <h3>When should I use Async (asynchronous) mode?</h3>
-        <p>If you are running the simulation live in a classroom where everyone is playing at the same time, and you wish all the players/teams to experience each hour's arrivals at the same time, then use the default Synchronous mode. However, if you are assigning EMERGENCY! as an out-of-class assignment, or are running it in an asynchronous online class environemnt, then the Async mode will likely be a better fit.</p>
+        <p>If you are running the simulation live in a classroom where everyone is playing at the same time, and you wish all the players/teams to experience each hour's arrivals at the same time, then use the default Synchronous mode. However, if you are assigning EMERGENCY! as an out-of-class assignment, or are running it in an asynchronous online class environemnt, then the Async mode will likely be a better fit. Note that, when operating in Synchronous mode, students see how many other students have already finished the round, which helps put gentle pressure on them to keep up.</p>
 
         <h3>How many students can EMERGENCY! support simultaneously?</h3>
-        <p>We are still exploring these limits, but it has been successfully run in a class with around 35 players/teams in one session. So if you have your students team up into pairs, it should support a class up to around 72 students.</p>
+        <p>We are still exploring these limits, but it has been successfully run in a class with around 50 players/teams in one session. So if you have your students team up into pairs, it should support a class up to around 100 students. If you wish to play EMERGENCY! with a group larger than that, reach out to either <a href="mailto:esiemsen@wisc.edu">Enno</a> or <a href="mailto:craig.froehle@uc.edu">Craig</a>.</p>
 
         <div class="callout">
           <p>
