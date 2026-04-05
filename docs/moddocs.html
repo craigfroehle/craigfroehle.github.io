@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emergency! – Instructor Guide</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --red:        #c0392b;
+      --red-dark:   #96281b;
+      --red-light:  #f5e6e5;
+      --ink:        #1a1a1a;
+      --ink-mid:    #4a4a4a;
+      --ink-light:  #888;
+      --paper:      #faf8f5;
+      --paper-mid:  #f0ece5;
+      --paper-dark: #e2dbd0;
+      --white:      #ffffff;
+
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body:    'Source Serif 4', Georgia, serif;
+
+      --max-width: 900px;
+      --gutter:    clamp(1.5rem, 5vw, 3rem);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 18px; }
+
+    body {
+      background-color: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-body);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { display: block; max-width: 100%; height: auto; border-radius: 4px; }
+
+    a { color: var(--red); text-decoration: underline; text-underline-offset: 3px; }
+    a:hover { color: var(--red-dark); }
+
+    .site-wrap {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+
+    /* ── HEADER ── */
+    header { background-color: var(--ink); color: var(--white); }
+
+    .header-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 3rem var(--gutter) 2.5rem;
+    }
+
+    .site-label {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 10vw, 5.5rem);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+
+    .tagline {
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--paper-dark);
+      max-width: 80ch;
+      margin-bottom: 2rem;
+    }
+
+    .rule { width: 4rem; height: 4px; background: var(--red); border: none; margin: 0; }
+
+    /* Audience switcher in header */
+    .audience-switch {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .audience-switch span {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      color: var(--ink-light);
+      text-transform: uppercase;
+    }
+
+    .audience-switch a {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.3rem 0.8rem;
+      border-radius: 3px;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .audience-switch a.active {
+      background: var(--red);
+      color: var(--white);
+    }
+
+    .audience-switch a.inactive {
+      border: 1px solid var(--ink-light);
+      color: var(--ink-light);
+    }
+
+    .audience-switch a.inactive:hover {
+      border-color: var(--paper-dark);
+      color: var(--paper-dark);
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--paper-mid);
+      border-bottom: 2px solid var(--paper-dark);
+    }
+
+    .nav-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      display: inline-block;
+      padding: 0.75rem 1.1rem;
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      color: var(--ink-mid);
+      border-bottom: 3px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    nav a:hover { color: var(--red); border-bottom-color: var(--red); }
+
+    /* ── MAIN ── */
+    main { padding: 3rem 0 5rem; }
+    section { margin-bottom: 4rem; }
+
+    h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      margin-bottom: 0.4rem;
+      padding-top: 1rem;
+    }
+
+    h2::after {
+      content: '';
+      display: block;
+      width: 2.5rem;
+      height: 3px;
+      background: var(--red);
+      margin-top: 0.45rem;
+      margin-bottom: 1.2rem;
+    }
+
+    h3 {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      letter-spacing: 0.06em;
+      color: var(--ink);
+      margin: 2rem 0 0.6rem;
+    }
+
+    p { margin-bottom: 1.1rem; max-width: 90ch; }
+
+    figure {
+      margin: 2rem 0;
+      background: var(--paper-mid);
+      border: 1px solid var(--paper-dark);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    figure img { width: 100%; border-radius: 0; }
+
+    figcaption {
+      padding: 0.7rem 1rem;
+      font-size: 0.85rem;
+      color: var(--ink-light);
+      font-style: italic;
+      border-top: 1px solid var(--paper-dark);
+    }
+
+    .callout {
+      background: var(--red-light);
+      border-left: 4px solid var(--red);
+      border-radius: 0 6px 6px 0;
+      padding: 1.1rem 1.4rem;
+      margin: 2rem 0;
+      max-width: 72ch;
+    }
+    .callout p { margin-bottom: 0; }
+    .callout strong { color: var(--red-dark); }
+
+    ol.steps {
+      list-style: none;
+      counter-reset: steps;
+      padding: 0;
+      max-width: 90ch;
+    }
+
+    ol.steps li {
+      counter-increment: steps;
+      display: grid;
+      grid-template-columns: 2.5rem 1fr;
+      gap: 0.5rem 1rem;
+      margin-bottom: 1.3rem;
+      align-items: start;
+    }
+
+    ol.steps li::before {
+      content: counter(steps);
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: var(--red);
+      line-height: 1.2;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+      margin: 1.5rem 0 2.5rem;
+    }
+
+    thead th {
+      background: var(--ink);
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-align: left;
+      padding: 0.65rem 0.9rem;
+    }
+
+    tbody tr:nth-child(even) { background: var(--paper-mid); }
+
+    tbody td {
+      padding: 0.6rem 0.9rem;
+      border-bottom: 1px solid var(--paper-dark);
+      vertical-align: top;
+    }
+
+    code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.85em;
+      /* background: var(--paper-dark); */
+      /* padding: 0.1em 0.35em; */
+      /* border-radius: 3px; */
+      font-weight: bold;
+    }
+
+	footer {
+	  background: var(--ink);
+	  color: var(--ink-light);
+	  font-size: 0.85rem;
+	  text-align: center;
+	}
+
+	.footer-inner {
+	  max-width: var(--max-width);
+	  margin: 0 auto;
+	  padding: 2rem var(--gutter);
+	}
+
+    footer a { color: var(--paper-dark); }
+
+    @media (max-width: 600px) {
+      h1 { line-height: 1.05; }
+      nav a { padding: 0.6rem 0.7rem; font-size: 0.8rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="header-inner">
+      <p class="site-label">Educational Simulation</p>
+      <h1>Emergency!</h1>
+      <p class="tagline">Instructor Guide — setup, controls, and debrief facilitation.</p>
+      <hr class="rule" />
+      <div class="audience-switch">
+        <span>View as:</span>
+        <a href="moddocs.html" class="active">Instructor</a>
+        <a href="student.html" class="inactive">Student</a>
+      </div>
+    </div>
+  </header>
+
+  <nav aria-label="Page sections">
+    <div class="nav-inner">
+      <a href="#overview">Overview</a>
+      <a href="#getting-started">Getting Started</a>
+      <a href="#setup">Session Setup</a>
+      <a href="#running-the-sim">Running a Session</a>
+      <a href="#debrief">Debrief</a>
+      <a href="#faq">FAQ</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="site-wrap">
+
+      <section id="overview">
+        <h2>Overview</h2>
+        <p>
+          EMERGENCY! was originally designed as a physical simulation game meant for in-class play. It focuses on the effects of demand variability on service operations, specifically using an emergency department as the operational context.</p>
+       <div class="callout">
+        <p>
+          <b>IMPORTANT:</b> If you have not read through the <a href="student.html">Player Instructions</a> yet, please do that <em>before</em> reading through the instructor documentation, as some concepts and definitions (e.g., patient types) are provided there in more detail.</p>
+	   </div>
+        <p> 
+		  This online version may be played in two modes: <b>Synchronous</b> and <b>Asynchronous</b>. Synchronous play is intended for use in a classroom environment, or for use in a real-time online (distributed) classroom setup. Asynchronous play is for when instructors wish to allow their students to play the game whenever the students prefer, potentially multiple times. Both modes provide essentially the same play experience, but the Synchronous mode gives the instructor additional control to ensure no team advances further in the simulation than the rest of the teams.</p>
+          <p>
+            This online version of EMERGENCY! is freely available for use in academic institution courses, seminars, and workshops. 
+          </p>
+      </section>
+
+      <section id="getting-started">
+        <h2>Getting Started</h2>
+        <p>
+          <b>NOTE:</b> Please use the <a href="https://edgame.edutool.org/instructor/login?mode=register">Instructor Account Request Form</a> if you do not already have instructor access to the simulation.
+        </p>
+        <ol class="steps">
+          <li><span>Navigate to <a href="https://edgame.edutool.org/">edgame.edutool.org</a> and click <a href="https://edgame.edutool.org/instructor/login">Log in</a></span></li>
+			<figure>
+			  <img src="login.png" alt="Login screen" />
+			  <figcaption>The main login screen; instructor access is via the "Log in" link at the bottom.</figcaption>
+			</figure>
+          <li><span>Use your registered email address and password to sign in to your Instructor Dashboard.</span></li>
+			<figure>
+			  <img src="inst_login.png" alt="Instructor login screen" />
+			  <figcaption>The instructor login screen.</figcaption>
+			</figure>
+         <li><span>You should then be taken to your instructor dashboard, which lists all your active and recent game sessions. If you have never used Emergency! before, your dashboard will not have any sessions in it.</span></li>
+			<figure>
+			  <img src="inst_dashboard1.png" alt="Instructor dashboard" />
+			  <figcaption>The instructor dashboard screen.</figcaption>
+			</figure>
+        </ol>
+		<p>From the dashboard screen, you can monitor and delete active or recent sessions, start a new session, or delete all sessions. Clicking on the "+ New Session" button will take you into the session creation page, which is covered in the next section.
+
+      <section id="setup">
+        <h2>Session Setup</h2>
+        <p>
+          Upon clicking the "+ New Session" button, a dialog will appear requesting a name for the new session. This is used to help instructors and students ensure they are interacting with the correct simulation session.
+        </p>
+		<figure>
+		  <img src="new_session.png" alt="New session name input" />
+		  <figcaption>Giving new sessions unique and descriptive names can help instructors who manage multiple sessions concurrently.</figcaption>
+		</figure>
+        <p>
+          Once the session name is entered and the "Create Session" button has been pressed, the instructor will be taken to the new-session setup page. The session name is at the top left. At the top right is the session code, which the instructor will provide to students so they can participate in the session.
+        </p>
+		<figure>
+		  <img src="session_setup1.png" alt="New session setup screen" />
+		  <figcaption>All the parameters involved in setting up a new session of Emergency! are accessed via this screen.</figcaption>
+		</figure>
+        <h3>Setup Parameters</h3>
+        <p>
+          The online version of Emergency! gives instructors direct control over many different parameters — a capability not possible in the physical version of the game. These controls allow you to tailor the simulation difficulty (or novelty) when exploring how arrival variability affects system performance. 
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th style="min-width: 100px;">Parameter</th>
+              <th>Description</th>
+              <th style="min-width: 140px;">Default</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>Daily Arrivals</code></td>
+              <td>The number of patients of each acuity (urgency) level arriving during the 24 simulated hours</td>
+              <td>Type A: 21<br>Type B: 38<br>Type C: 41</td>
+            </tr>
+            <tr>
+              <td><code>Revenue Per Patient</code></td>
+              <td>How much revenue is generated for each patient who is fully treated and exits from the system. Money units are set further below.</td>
+              <td>Type A: 2000<br>Type B: 1200<br>Type C: 500</td>
+            </tr>
+            <tr>
+              <td><code>Waiting Cost Per Hour</code></td>
+              <td>The cost (reduction in profit) generated by each patient for each hour that patient waits for care.</td>
+              <td>Type A: 250<br>Type B: 100<br>Type C: 25</td>
+            </tr>
+            <tr>
+              <td><code>Risk Event Cost</code></td>
+              <td>The cost generated by each patient who, while waiting, is harmed. High (A) acuity patients suffer a cardiac arrest while Medium (B) and Low (C) acuity patients leave without being seen by a caregiver. A, B, and C patients have a 5%, 10%, and 15% chance of being harmed, respectively, each hour they wait.</td>
+              <td>Type A: 10000<br>Type B: 300<br>Type C: 200</td>
+            </tr>
+            <tr>
+              <td><code>Max Waiting Room</code></td>
+              <td>The maximum number of patients that the waiting room can accommodate. If patients arrive when the waiting room is full and cannot be accommodate in an empty exam room, they are turned away and their potential revenue is lost.</td>
+              <td>20</td>
+            </tr>
+            <tr>
+              <td><code>Max Budget</code></td>
+              <td>The budget players are given to staff their exam rooms. High-acuity, medium-acuity, and low-acuity rooms cost 3500, 2500, and 1800, respectively, to staff (and make available to care for patients) for the 24-hour simulation period.</td>
+              <td>42000</td>
+            </tr>
+            <tr>
+              <td><code>Time Sensitive Waiting Harms</code></td>
+              <td>This option increases the cost penalty for waiting patients each hour that a patient waits.</td>
+              <td>Off</td>
+            </tr>
+            <tr>
+              <td><code>Async Mode</code></td>
+              <td>This option allows players to advance through the 24 hours of the simulation and complete the session independently of any other players logged into the session. Note that enabling this option removes the ability of the instructor to hold students back from advancing to the next hour or completing the simulation.</td>
+              <td>Off</td>
+            </tr>
+            <tr>
+              <td><code>Currency Symbol</code></td>
+              <td>This is the monetary symbol used in front of all revenue, cost, and profit values in the student interface.</td>
+              <td>$</td>
+            </tr>
+          </tbody>
+        </table>
+
+		<h3>Patient Arrivals</h3>
+		<p>The patient-arrival pattern across the 24 simulated hours (shown in the stacked bar chart) is randomly generated to match the total daily arrival counts (by acuity level) indicated in the first parameter fields above. If the instructor wishes to change the pattern of patient arrivals, there are three options available: Default, Random, and Advanced (Random is default).</p>
+		<p><b><em>DEFAULT:</em></b> There is a standard, fixed arrival pattern (that is empirically based...it represents the average hourly arrivals at a large, urban, midwestern US emergency department) instructors can use. If an instructor is running multiple sessions simultaneously, using this distribution will ensure all sessions have the same input arrivals. Click the "User Standard Dataset" button to use that pattern, which will be reflected in the bar chart along with a label above it reading "Using Standard Dataset."</p>
+
+        <figure>
+          <img src="inst_patarr1.png" alt="Default Patient Arrivals Pattern" />
+          <figcaption>The "standard dataset" patient arrival pattern also sets the total daily patient arrivals back to the default values of 21, 38, and 41, regardless of what values are indicated in those parameter input fields.</figcaption>
+        </figure>
+
+		<p><b><em>RANDOM:</em></b> If the "Regenerate Arrivals" button is clicked, the simulation will regenerate a randomized pattern of patient arrivals corresponding to the daily arrival totals indicated in the parameter input fields and show that pattern in the bar chart. Each click of the button will generate a new arrivals pattern. If more or fewer than 100 total patients are set to arrive, their relative proportions will be shown below the bar chart.</p>
+
+		<p><b><em>ADVANCED:</em></b> If the "Show Advanced Settings (Hourly Weights)" button is clicked, the Game Parameters page will expand to reveal three tables, one for each patient class (A, B & C). Each table shows the proportion of total arrivals that each hour generates, so all 24 proportions must add up to 1.00 (that sum is shown underneath each table's header). Once the hourly weights are to your liking, scroll to the bottom of the tables and click the "Regenerate Arrivals" button. Check to make sure the bar chart looks like what you expect. The instructor can restore the hourly weight values to their defaults by clicking the "Reset to Defaults" button.</p>
+
+        <figure>
+          <img src="inst_patarr2.png" alt="Advanced Patient Arrivals Settings" />
+          <figcaption>The "advanced" patient arrival pattern settings allow the instructor to customize the weight of each hour, for each patient acuity class, if desired.</figcaption>
+        </figure>
+
+        <div class="callout">
+          <p>
+            <strong>Tip:</strong> Only alter the hourly weights if you have a specific scenario you want the students to experience. Otherwise, the existing weights reflect generalized arrival patterns for emergency departments and should serve the simulation well. 
+          </p>
+        </div>
+
+		<p>Once all the above parameters are to your liking, click the "Start Session" button at the bottom of the page. This will make the session "live" and allow students who have the session code login and begin to allocate their budget to staff their rooms. Managing the actual game play once the session is started is covered in the next section.</p>
+      </section>
+      <section id="running-the-sim">
+        <h2>Running a Session</h2>
+        <p>Once the new session has started, the instructor will see the following session screen. On the top of this screen are the session name, the join code (in the example shown, the code is JAY8Y9), a game phase indicator ("Staffing Phase" is shown), and an "End Session" button.</p>
+
+        <figure>
+          <img src="inst_newsess.png" alt="Session Monitoring Screen" />
+          <figcaption>The session monitoring screen, before any students join the session, will be largely empty.</figcaption>
+        </figure>
+
+		<p>Below those items, the "Game Progress" indicator shows, in real time, where along the simulation the session is. Below that is the list of players/teams, which will populate as students log into the session.</p>
+
+        <figure>
+          <img src="inst_sessstatus.png" alt="Session Monitoring Screen" />
+          <figcaption>The session monitoring screen, once several students have joined. In this example, Player A is staffing their rooms, while Players B-E have finished that step and are waiting for the simulation to begin.</figcaption>
+        </figure>
+
+		<p>Note in the image above that the instructor has several buttons for each team. Depending on what stage each team is, these buttons may include <b>Nudge</b> (a note flashes on that player's screen reminding them to complete their turn), <b>End</b> (the decisions for that round are automatically made for them), and <b>Kick</b> (removes that player from the session entirely). These actions are immediate and cannot be undone, so please use "End" and especially "Kick" only when circumstances require it.</p>
+
+        <figure>
+          <img src="inst_sessstatus2.png" alt="Session Monitoring Screen" />
+          <figcaption>Midway through a simulation -- here shown in hour 3 (8-9 AM) -- the players/teams may be at various points in the hourly round. Shown is a game being played in Synchronous mode. Note that this screen shows, for each player/team, their gameplay status, connection status, current profit, and number of patients in their waiting waiting room are shown. Below that is this hour's new patient arrivals, by acuity class.</figcaption>
+        </figure>
+
+        <h3>Ending the Simulation</h3>
+        <p>When the last player/team has completed hour 24 of the simulation, each player/team AND the instructor will be shown a statistics page (see example below).</p>
+
+        <figure>
+          <img src="inst_stats1.png" alt="Session Statistics" />
+          <figcaption>The session statistics screen gives a summary "Leaderboard" table of performance measures for each player/team (with the top three earning Gold, Silver, and Bronze medals). Below that table are graphs comparing each player/team on various metrics. Those graphs can be used as part of the post-simulation debrief (see next section).</figcaption>
+        </figure>
+        <p>If you want to either save the team performance data as a CSV (comma-separated value) file or download the graphs as a PDF, click the corresponding button at the top of the session statistics screen.</p>
+      </section>
+
+      <section id="debrief">
+        <h2>Debrief</h2>
+        <p>
+          For additional guidance on how to lead the class discussion through the core discoveries and key concepts that are surfaced by this simulation, please see the teaching notes (available on request, <em>for instructors only</em>, by <a href="mailto:craig.froehle@uc.edu">emailing Craig Froehle</a>.)
+        </p>
+
+        <!-- <h3>Suggested Discussion Questions</h3> 
+        <ol class="steps"> 
+          <li><span>[Discussion question 1]</span></li> 
+          <li><span>[Discussion question 2]</span></li> 
+          <li><span>[Discussion question 3]</span></li> 
+          <li><span>[Discussion question 4]</span></li> 
+        </ol> 
+
+        <h3>Connections to Course Concepts</h3> 
+        <p>[Link simulation outcomes to queueing theory, capacity management, service design, etc.]</p> 
+
+        <h3>Results Data</h3> 
+        <p>[How to access and display team results after the simulation ends — useful for in-class comparison.]</p> -->
+      </section>
+
+      <section id="faq">
+        <h2>FAQs</h2>
+
+        <h3>How long does the simulation take to run? How much class time should I allocate to it?</h3>
+        <p>With no pre-work or setup, the online version of EMERGENCY! typically requires 80-90 minutes. This can be reduced by assigning the budget allocation step as pre-work to students/teams so they will come into the classroom already having a plan as to how many rooms of each type they will be staffing. Debrief can run from 10 minutes to about 30 minutes, depending on how deeply you wish to plumb the issues (and how engaged your students are).</p>
+
+        <h3>Should each student play on his/her laptop in class, or should I use teams?</h3>
+        <p>Both work, but in our experience, teams of 2 students work best for the online version of EMERGENCY! Interestingly, the physical simulation version works best with teams of 3-4 students, as each student can take on a different role (e.g., moving patient tokens), many of which are automated in the online version.</p>
+
+        <h3>When should I use Async (asynchronous) mode?</h3>
+        <p>If you are running the simulation live in a classroom where everyone is playing at the same time, and you wish all the players/teams to experience each hour's arrivals at the same time, then use the default Synchronous mode. However, if you are assigning EMERGENCY! as an out-of-class assignment, or are running it in an asynchronous online class environemnt, then the Async mode will likely be a better fit.</p>
+
+        <div class="callout">
+          <p>
+            <strong>Contact:</strong> Questions not answered here? Reach Craig Froehle via email at
+            <a href="mailto:craig.froehle@uc.edu">craig.froehle@uc.edu</a>.
+          </p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+	<div class="footer-inner">
+		<p><b>EMERGENCY!</b> is a product of <a href="https://www.happyharpygames.com/p/emergency.html">Happy Harpy Games</a>. This online version was developed by <a href="https://business.wisc.edu/directory/profile/enno-siemsen/">Enno Siemsen</a> &amp; <a href="https://business.uc.edu/Craig-Froehle">Craig Froehle</a>. Free to use for educational purposes.
+		</p>
+	</div>
+  </footer>
+
+</body>
+</html>
