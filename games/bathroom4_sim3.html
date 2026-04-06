@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)file:///C:/Users/craig/Downloads/bathroom2_5.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>Facility Design Simulator – Restroom DES</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600&display=swap');
+
+    :root {
+      --bg: #f4f1eb;
+      --surface: #ffffff;
+      --border: #c8c0b0;
+      --text: #1a1a1a;
+      --muted: #6b6357;
+      --accent-m: #1a4a8a;
+      --accent-f: #8a1a4a;
+      --accent-u: #1a6a4a;
+      --accent-x: #6a1a8a;
+      --warning: #b00020;
+      --ok: #1a5a2a;
+      --shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'IBM Plex Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      max-width: 1000px;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem 4rem;
+      line-height: 1.55;
+    }
+
+    header {
+      border-bottom: 2px solid var(--text);
+      padding-bottom: 0.75rem;
+      margin-bottom: 2rem;
+    }
+    header h1 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+    }
+    header p { font-size: 0.85rem; color: var(--muted); margin-top: 0.25rem; }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: var(--shadow);
+    }
+    .panel-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .panel-header h2 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.15rem 0.5rem;
+      border-radius: 2px;
+    }
+    .badge-m { background: #dce8f7; color: var(--accent-m); }
+    .badge-f { background: #f7dce8; color: var(--accent-f); }
+    .badge-u { background: #daf0e6; color: var(--accent-u); }
+    .badge-x { background: #eedaf0; color: var(--accent-x); }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+    .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1rem; }
+
+    @media (max-width: 640px) {
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    }
+
+    .field { display: flex; flex-direction: column; gap: 0.3rem; }
+    .field label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .field .sublabel {
+      font-size: 0.72rem;
+      color: #aaa;
+      margin-top: -0.15rem;
+    }
+
+    input[type="number"] {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.45rem 0.65rem;
+      border: 1.5px solid var(--border);
+      border-radius: 3px;
+      background: #faf9f7;
+      color: var(--text);
+      width: 100%;
+      transition: border-color 0.15s;
+    }
+    input[type="number"]:focus { outline: none; border-color: #888; }
+    input[type="number"].err   { border-color: var(--warning); background: #fff5f5; }
+
+    .section-divider {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #bbb;
+      margin: 1rem 0 0.75rem;
+    }
+    .section-divider:first-child { margin-top: 0; }
+
+    .alloc-equation {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      padding: 0.5rem 0.75rem;
+      background: #f4f1eb;
+      border-radius: 3px;
+      border-left: 3px solid var(--border);
+    }
+    .space-tally {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      padding: 0.6rem 0.9rem;
+      border-radius: 3px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.82rem;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .space-tally.ok    { background: #e8f4ec; color: var(--ok); }
+    .space-tally.over  { background: #fde8ec; color: var(--warning); }
+    .space-tally.under { background: #fff8e0; color: #7a5800; }
+
+    .run-btn {
+      display: block;
+      width: 100%;
+      padding: 0.8rem;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: var(--text);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      margin-top: 0.5rem;
+    }
+    .run-btn:hover  { background: #333; }
+    .run-btn:active { transform: scale(0.99); }
+    .run-btn:disabled { background: #aaa; cursor: not-allowed; }
+
+    .warn-msg {
+      font-size: 0.8rem;
+      color: var(--warning);
+      margin-top: 0.5rem;
+      font-family: 'IBM Plex Mono', monospace;
+      min-height: 1.2em;
+    }
+
+    .progress-bar-wrap {
+      background: #e8e4dc;
+      border-radius: 2px;
+      height: 4px;
+      margin-top: 0.75rem;
+      overflow: hidden;
+      display: none;
+    }
+    .progress-bar-wrap.visible { display: block; }
+    .progress-bar {
+      height: 100%;
+      background: var(--text);
+      width: 0%;
+      transition: width 0.2s;
+    }
+
+    .results-area { display: none; }
+    .results-area.visible { display: block; }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    @media (max-width: 640px) { .results-grid { grid-template-columns: 1fr; } }
+
+    .result-card {
+      border-radius: 4px;
+      padding: 1rem 1.1rem;
+      border: 1.5px solid transparent;
+    }
+    .card-men    { background: #f0f5fc; border-color: #b8d0ee; }
+    .card-women  { background: #fcf0f5; border-color: #eeb8d0; }
+    .card-unisex { background: #f5f0fc; border-color: #d0b8ee; }
+
+    .result-card h3 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.75rem;
+    }
+    .h-men    { color: var(--accent-m); }
+    .h-women  { color: var(--accent-f); }
+    .h-unisex { color: var(--accent-x); }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.22rem 0;
+      border-bottom: 1px dotted #ddd;
+      font-size: 0.82rem;
+    }
+    .stat-row:last-child { border-bottom: none; }
+    .stat-label { color: var(--muted); font-size: 0.76rem; }
+    .stat-value {
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 600;
+      font-size: 0.88rem;
+    }
+    .stat-value.warn { color: var(--warning); }
+    .stat-value.ok   { color: var(--ok); }
+
+    .result-full {
+      background: #f8f8f5;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1rem 1.1rem;
+      margin-bottom: 1rem;
+    }
+    .result-full h3 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    select {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 0.45rem 0.65rem;
+      border: 1.5px solid var(--border);
+      border-radius: 3px;
+      background: #faf9f7;
+      color: var(--text);
+      width: 100%;
+      cursor: pointer;
+      transition: border-color 0.15s;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6357' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.65rem center;
+      padding-right: 2rem;
+    }
+    select:focus { outline: none; border-color: #888; }
+
+    .dist-note {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 0.4rem;
+      font-family: 'IBM Plex Mono', monospace;
+      min-height: 1.1em;
+    }
+
+    .note {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-top: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Facility Design Simulator — Restroom Allocation</h1>
+  <p>Discrete-event simulation · configurable inter-arrival &amp; service distributions · FCFS routing</p>
+</header>
+
+<!-- Simulation Size -->
+<div class="panel">
+  <div class="panel-header"><h2>Simulation Parameters</h2></div>
+  <div class="grid-2" style="max-width:680px">
+    <div class="field">
+      <label>Number of simulated guests</label>
+      <span class="sublabel">Default 1,000 · max 999,999</span>
+      <input type="number" id="numGuests" min="1" max="999999" value="1000">
+      <div class="warn-msg" id="guestWarn"></div>
+    </div>
+    <div class="field">
+      <label>Time distribution</label>
+      <span class="sublabel">Applies to all inter-arrival &amp; service times · cap: 20 min</span>
+      <select id="distSelect">
+        <option value="exponential">Exponential — CV = 1.0 (memoryless)</option>
+        <option value="erlang2">Erlang-2 — CV ≈ 0.71 (moderate variance)</option>
+        <option value="erlang3">Erlang-3 — CV ≈ 0.58 (lower variance)</option>
+        <option value="lognormal">Lognormal — CV ≈ 0.5 (right-skewed, realistic)</option>
+        <option value="uniform">Uniform — CV ≈ 0.58 (symmetric, hard bounds)</option>
+      </select>
+      <div class="dist-note" id="distNote">Memoryless; high variance; P(X &gt; 20 min) ≈ e^(−20/mean) — usually negligible.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Overall Capacity -->
+<div class="panel">
+  <div class="panel-header"><h2>Overall Capacity</h2></div>
+  <div style="max-width:320px">
+    <div class="field">
+      <label>Total stall spaces available</label>
+      <span class="sublabel">Toilet = 1 sp · Urinal = ½ sp · Unisex = 2 sp</span>
+      <input type="number" id="totalStalls" min="1" value="16">
+    </div>
+  </div>
+</div>
+
+<!-- Demand Parameters -->
+<div class="panel">
+  <div class="panel-header"><h2>Demand Parameters</h2></div>
+
+  <div class="section-divider">Men — Standing (urinal, toilet, or unisex)</div>
+  <div class="grid-2">
+    <div class="field">
+      <label>Arrival rate λ<sub>ms</sub> <span class="badge badge-m">Men · Standing</span></label>
+      <span class="sublabel">people / hour</span>
+      <input type="number" id="lambdaMS" step="0.1" min="0" value="140">
+    </div>
+    <div class="field">
+      <label>Avg. occupancy time t<sub>ms</sub></label>
+      <span class="sublabel">minutes (mean)</span>
+      <input type="number" id="tMS" step="0.1" min="0.1" value="1">
+    </div>
+  </div>
+
+  <div class="section-divider">Men — Sitting (toilet or unisex only)</div>
+  <div class="grid-2">
+    <div class="field">
+      <label>Arrival rate λ<sub>mt</sub> <span class="badge badge-m">Men · Sitting</span></label>
+      <span class="sublabel">people / hour</span>
+      <input type="number" id="lambdaMT" step="0.1" min="0" value="40">
+    </div>
+    <div class="field">
+      <label>Avg. occupancy time t<sub>mt</sub></label>
+      <span class="sublabel">minutes (mean)</span>
+      <input type="number" id="tMT" step="0.1" min="0.1" value="5">
+    </div>
+  </div>
+
+  <div class="section-divider">Women (toilet or unisex)</div>
+  <div class="grid-2">
+    <div class="field">
+      <label>Arrival rate λ<sub>f</sub> <span class="badge badge-f">Women</span></label>
+      <span class="sublabel">people / hour</span>
+      <input type="number" id="lambdaF" step="0.1" min="0" value="150">
+    </div>
+    <div class="field">
+      <label>Avg. occupancy time t<sub>f</sub></label>
+      <span class="sublabel">minutes (mean)</span>
+      <input type="number" id="tF" step="0.1" min="0.1" value="3">
+    </div>
+  </div>
+
+  <p class="note" style="margin-top:1rem">
+    Inter-arrival times and service times are drawn from the selected distribution (see Simulation Parameters),
+    with a hard cap of 20 minutes — values exceeding the cap are redrawn.
+    All men share a single FCFS queue. Standing men take the first available urinal,
+    men's toilet, or unisex room (in that order). Sitting men and women take the first
+    available toilet or unisex room. When a unisex room frees up, it goes to whichever
+    waiting guest — man or woman — has been waiting longest.
+  </p>
+</div>
+
+<!-- Fixture Allocation -->
+<div class="panel">
+  <div class="panel-header"><h2>Fixture Allocation</h2></div>
+
+  <div class="alloc-equation">
+    Space constraint: &nbsp;
+    (urinals × ½) + men's toilets + women's toilets + (unisex × 2) = total spaces
+    &nbsp;[= <strong id="totalEq">16</strong>]
+  </div>
+
+  <div class="grid-4">
+    <div class="field">
+      <label>Men's urinals <span class="badge badge-u">½ sp each</span></label>
+      <span class="sublabel">fixture count</span>
+      <input type="number" id="numUrinals" min="0" value="6">
+    </div>
+    <div class="field">
+      <label>Men's toilets <span class="badge badge-m">1 sp each</span></label>
+      <span class="sublabel">fixture count</span>
+      <input type="number" id="numMenToilets" min="0" value="3">
+    </div>
+    <div class="field">
+      <label>Women's toilets <span class="badge badge-f">1 sp each</span></label>
+      <span class="sublabel">fixture count</span>
+      <input type="number" id="numWomenToilets" min="0" value="7">
+    </div>
+    <div class="field">
+      <label>Unisex rooms <span class="badge badge-x">2 sp each</span></label>
+      <span class="sublabel">fixture count</span>
+      <input type="number" id="numUnisex" min="0" value="0">
+    </div>
+  </div>
+
+  <div class="space-tally ok" id="spaceTally">
+    <span class="icon">✓</span>
+    <span id="tallyText">6 urinals (3 sp) + 3 men's toilets + 7 women's toilets + 0 unisex (0 sp) = 13 / 16 spaces (3.0 unused)</span>
+  </div>
+</div>
+
+<!-- Run -->
+<div class="panel">
+  <button class="run-btn" id="runBtn">▶ Run Simulation</button>
+  <div class="progress-bar-wrap" id="progressWrap">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+</div>
+
+<!-- Results -->
+<div class="results-area" id="resultsArea">
+  <div class="panel">
+    <div class="panel-header"><h2>Results</h2></div>
+    <p class="note" id="simSummaryLine" style="margin-bottom:1rem; font-style:italic;"></p>
+
+    <div class="results-grid">
+      <div class="result-card card-men">
+        <h3 class="h-men">Men's Room</h3>
+        <div class="stat-row">
+          <span class="stat-label">Guests served</span>
+          <span class="stat-value" id="r-men-n">—</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Avg wait — those who waited</span>
+          <span class="stat-value" id="r-men-avgwait">—</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Avg wait — all men</span>
+          <span class="stat-value" id="r-men-avgwait-all">—</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Max wait</span>
+          <span class="stat-value" id="r-men-maxwait">—</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">% who waited &gt; 0</span>
+          <span class="stat-value" id="r-men-pct">—</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Urinal utilization</span>
+          <span class="stat-value" id="r-urinal-util">—</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Men's toilet utilization</span>
+          <span class="stat-value" id="r-mentoilet-util">—</span>
+        </div>
+      </div>
+
+      <div class="result-card card-women">
+        <h3 class="h-women">Women's Room</h3>
+        <div class="stat-row">
+          <span class="stat-label">Guests served</span>
+          <span class="stat-value" id="r-women-n">—</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Avg wait — those who waited</span>
+          <span class="stat-value" id="r-women-avgwait">—</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Avg wait — all women</span>
+          <span class="stat-value" id="r-women-avgwait-all">—</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Max wait</span>
+          <span class="stat-value" id="r-women-maxwait">—</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">% who waited &gt; 0</span>
+          <span class="stat-value" id="r-women-pct">—</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Women's toilet utilization</span>
+          <span class="stat-value" id="r-womentoilet-util">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Unisex card: only shown when numUnisex > 0 -->
+    <div id="unisexResultCard" style="display:none; margin-bottom:1rem;">
+      <div class="result-card card-unisex">
+        <h3 class="h-unisex">Unisex Rooms</h3>
+        <div class="stat-row">
+          <span class="stat-label">Guests served</span>
+          <span class="stat-value" id="r-unisex-n">—</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Unisex utilization</span>
+          <span class="stat-value" id="r-unisex-util">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Overall -->
+    <div class="result-full">
+      <h3>Overall</h3>
+      <div class="stat-row">
+        <span class="stat-label">Total guests simulated</span>
+        <span class="stat-value" id="r-total-n">—</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Overall avg wait</span>
+        <span class="stat-value" id="r-overall-avg">—</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Overall max wait</span>
+        <span class="stat-value" id="r-overall-max">—</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Simulated time span</span>
+        <span class="stat-value" id="r-simtime">—</span>
+      </div>
+    </div>
+
+    <p class="note">
+      <strong>Routing rules:</strong>
+      Standing men take the first available urinal → men's toilet → unisex room (in that order).
+      Sitting men take the first available men's toilet → unisex room.
+      Women take the first available women's toilet → unisex room.
+      When a unisex room frees up, it is assigned to whichever queued guest (man or woman)
+      has been waiting longest — global FCFS across both queues.
+      The only FCFS exception within the men's queue: if the next freed fixture is a urinal
+      and the first man in line is sitting, the urinal passes to the first standing man behind him.
+    </p>
+  </div>
+</div>
+
+
+<script>
+// ─────────────────────────────────────────────────────────
+// Utilities
+// ─────────────────────────────────────────────────────────
+
+const CAP = 20; // hard cap in minutes
+
+// Box-Muller for normal samples
+function randNormal() {
+  let u, v, s;
+  do {
+    u = Math.random() * 2 - 1;
+    v = Math.random() * 2 - 1;
+    s = u*u + v*v;
+  } while (s >= 1 || s === 0);
+  return u * Math.sqrt(-2 * Math.log(s) / s);
+}
+
+// Draw one sample from the chosen distribution with the given mean.
+// Rejection-sample until value < CAP.
+function drawSample(dist, mean) {
+  let val;
+  let attempts = 0;
+  do {
+    switch (dist) {
+      case "exponential":
+        val = -mean * Math.log(1 - Math.random());
+        break;
+      case "erlang2": {
+        // Sum of 2 Exp(mean/2)
+        const h = mean / 2;
+        val = -h * Math.log(1 - Math.random()) + -h * Math.log(1 - Math.random());
+        break;
+      }
+      case "erlang3": {
+        // Sum of 3 Exp(mean/3)
+        const t = mean / 3;
+        val = -t * Math.log(1 - Math.random())
+            + -t * Math.log(1 - Math.random())
+            + -t * Math.log(1 - Math.random());
+        break;
+      }
+      case "lognormal": {
+        // Match mean; fix σ_log = 0.5 → μ_log = ln(mean) - σ²/2
+        const sigmaLog = 0.5;
+        const muLog = Math.log(mean) - (sigmaLog * sigmaLog) / 2;
+        val = Math.exp(muLog + sigmaLog * randNormal());
+        break;
+      }
+      case "uniform":
+        // Uniform on [0, 2*mean] gives mean = mean, CV = 1/sqrt(3)
+        val = Math.random() * 2 * mean;
+        break;
+      default:
+        val = -mean * Math.log(1 - Math.random());
+    }
+    attempts++;
+    // Safety: if we've tried many times (shouldn't happen with reasonable means),
+    // just return CAP - epsilon to avoid infinite loop
+    if (attempts > 1000) { val = CAP - 0.001; break; }
+  } while (val >= CAP || val <= 0);
+  return val;
+}
+
+// Dist note descriptions
+const DIST_NOTES = {
+  exponential: "Memoryless; high variance; P(X > 20 min) ≈ e^(−20/mean) — usually negligible.",
+  erlang2:     "Sum of 2 exponentials; smoother than Exp; CV = 1/√2 ≈ 0.71.",
+  erlang3:     "Sum of 3 exponentials; tighter bell shape; CV = 1/√3 ≈ 0.58.",
+  lognormal:   "Right-skewed with σ_log = 0.5; CV ≈ 0.53; realistic for occupancy times.",
+  uniform:     "Symmetric on [0, 2·mean]; no tail beyond 2·mean (cap rarely triggered if mean ≤ 10).",
+};
+
+function updateDistNote() {
+  const dist = document.getElementById("distSelect").value;
+  document.getElementById("distNote").textContent = DIST_NOTES[dist] || "";
+}
+
+document.getElementById("distSelect").addEventListener("change", updateDistNote);
+updateDistNote();
+
+function fmtMin(m) {
+  return m < 0.005 ? "0.00 min" : m.toFixed(2) + " min";
+}
+
+function fmtPct(p) {
+  return (p * 100).toFixed(1) + "%";
+}
+
+// ─────────────────────────────────────────────────────────
+// Live space tally
+// ─────────────────────────────────────────────────────────
+
+function updateTally() {
+  const total   = Math.max(1, parseFloat(document.getElementById("totalStalls").value) || 16);
+  const ur      = Math.max(0, parseInt(document.getElementById("numUrinals").value)      || 0);
+  const mt      = Math.max(0, parseInt(document.getElementById("numMenToilets").value)   || 0);
+  const wt      = Math.max(0, parseInt(document.getElementById("numWomenToilets").value) || 0);
+  const ux      = Math.max(0, parseInt(document.getElementById("numUnisex").value)       || 0);
+
+  document.getElementById("totalEq").textContent = total;
+
+  const used = ur * 0.5 + mt + wt + ux * 2;
+  const diff = +(used - total).toFixed(6);
+  const tally = document.getElementById("spaceTally");
+  const text  = document.getElementById("tallyText");
+
+  if (diff > 0.001) {
+    tally.className = "space-tally over";
+    tally.querySelector(".icon").textContent = "✗";
+    text.textContent = `Using ${used} of ${total} spaces — OVER by ${diff.toFixed(1)}. Reduce fixtures.`;
+  } else {
+    tally.className = "space-tally ok";
+    tally.querySelector(".icon").textContent = "✓";
+    const unused = (-diff).toFixed(1);
+    text.textContent = unused > 0
+      ? `${ur} urinals (${ur*0.5} sp) + ${mt} men's toilets + ${wt} women's toilets + ${ux} unisex (${ux*2} sp) = ${used} / ${total} spaces (${unused} unused)`
+      : `${ur} urinals (${ur*0.5} sp) + ${mt} men's toilets + ${wt} women's toilets + ${ux} unisex (${ux*2} sp) = ${used} / ${total} spaces`;
+  }
+}
+
+document.querySelectorAll("input").forEach(el => el.addEventListener("input", updateTally));
+updateTally();
+
+// Guest count warning
+document.getElementById("numGuests").addEventListener("input", function() {
+  const v = parseInt(this.value);
+  const warn = document.getElementById("guestWarn");
+  if (v > 999999) {
+    warn.textContent = "⚠ Please enter a number below 1,000,000.";
+    this.classList.add("err");
+  } else {
+    warn.textContent = "";
+    this.classList.remove("err");
+  }
+});
+
+// ─────────────────────────────────────────────────────────
+// Min-heap event queue
+// ─────────────────────────────────────────────────────────
+
+class MinHeap {
+  constructor() { this.data = []; }
+
+  push(ev) {
+    this.data.push(ev);
+    this._bubbleUp(this.data.length - 1);
+  }
+
+  pop() {
+    const top  = this.data[0];
+    const last = this.data.pop();
+    if (this.data.length > 0) {
+      this.data[0] = last;
+      this._sinkDown(0);
+    }
+    return top;
+  }
+
+  get size() { return this.data.length; }
+
+  _bubbleUp(i) {
+    while (i > 0) {
+      const p = (i - 1) >> 1;
+      if (this.data[p].time <= this.data[i].time) break;
+      [this.data[p], this.data[i]] = [this.data[i], this.data[p]];
+      i = p;
+    }
+  }
+
+  _sinkDown(i) {
+    const n = this.data.length;
+    while (true) {
+      const l = 2*i+1, r = 2*i+2;
+      let s = i;
+      if (l < n && this.data[l].time < this.data[s].time) s = l;
+      if (r < n && this.data[r].time < this.data[s].time) s = r;
+      if (s === i) break;
+      [this.data[i], this.data[s]] = [this.data[s], this.data[i]];
+      i = s;
+    }
+  }
+}
+
+// ─────────────────────────────────────────────────────────
+// Discrete-Event Simulation
+// ─────────────────────────────────────────────────────────
+//
+// Guest types:
+//   "man-standing"  → urinal, men-toilet, unisex  (in that preference order)
+//   "man-sitting"   → men-toilet, unisex
+//   "woman"         → women-toilet, unisex
+//
+// Fixture keys: "urinal" | "men-toilet" | "women-toilet" | "unisex"
+//
+// Queues:
+//   menQueue   – single FCFS list for all men (standing + sitting interleaved by arrival)
+//   womenQueue – FCFS list for all women
+//
+// On ARRIVAL:
+//   Scan fixture preference list; assign to first free fixture.
+//   If none free, append to appropriate queue.
+//
+// On DEPARTURE:
+//   Free the fixture.
+//   Determine who (if anyone) gets it next:
+//     urinal      → first *standing* man in menQueue (skip sitters)
+//     men-toilet  → first man in menQueue (any type)
+//     women-toilet→ first woman in womenQueue
+//     unisex      → longest-waiting guest across both queues
+//   If a taker found, schedule their DEPARTURE; otherwise leave fixture free.
+// ─────────────────────────────────────────────────────────
+
+function runSimulation(cfg) {
+  const { numGuests, dist,
+          lambdaMS, lambdaMT, lambdaF,
+          tMS, tMT, tF,
+          numUrinals, numMenToilets, numWomenToilets, numUnisex } = cfg;
+
+  const totalLambda = lambdaMS + lambdaMT + lambdaF;
+  if (totalLambda <= 0) return null;
+
+  const meanIAT = 60 / totalLambda;   // minutes between any arrival
+  const pMS = lambdaMS / totalLambda;
+  const pMT = lambdaMT / totalLambda;
+
+  // Fixture availability: count of free fixtures per type
+  const free = {
+    urinal:       numUrinals,
+    "men-toilet": numMenToilets,
+    "women-toilet": numWomenToilets,
+    unisex:       numUnisex,
+  };
+
+  // Queues
+  const menQueue   = [];   // {type, queueTime}
+  const womenQueue = [];   // {type, queueTime}
+
+  // Stats
+  const waitMen   = [];
+  const waitWomen = [];
+  let unisexServed = 0;
+
+  // Busy-time accumulators (minutes)
+  const busy = { urinal: 0, "men-toilet": 0, "women-toilet": 0, unisex: 0 };
+
+  // Event heap
+  const heap = new MinHeap();
+
+  // Service time by guest type
+  function svcTime(type) {
+    if (type === "man-standing") return drawSample(dist, tMS);
+    if (type === "man-sitting")  return drawSample(dist, tMT);
+    return drawSample(dist, tF);
+  }
+
+  // Record wait, schedule departure, decrement free count
+  function startService(guest, fixture, now) {
+    free[fixture]--;
+    const svc = svcTime(guest.type);
+    busy[fixture] += svc;
+    const wait = now - guest.queueTime;
+    if (guest.type === "woman") waitWomen.push(wait);
+    else                        waitMen.push(wait);
+    if (fixture === "unisex") unisexServed++;
+    heap.push({ time: now + svc, type: "DEP", fixture });
+  }
+
+  // Preference lists per guest type
+  const prefs = {
+    "man-standing": ["urinal", "men-toilet", "unisex"],
+    "man-sitting":  ["men-toilet", "unisex"],
+    "woman":        ["women-toilet", "unisex"],
+  };
+
+  // On arrival: try each preferred fixture in order
+  function tryAssignArrival(guest, now) {
+    for (const fix of prefs[guest.type]) {
+      if (free[fix] > 0) { startService(guest, fix, now); return true; }
+    }
+    return false;
+  }
+
+  // On departure: try to assign freed fixture to best queued guest
+  function tryAssignFromQueue(fixture, now) {
+    if (fixture === "urinal") {
+      // First *standing* man (skip sitters — they can't use urinals)
+      const idx = menQueue.findIndex(g => g.type === "man-standing");
+      if (idx >= 0) {
+        const g = menQueue.splice(idx, 1)[0];
+        free[fixture]++;          // temporarily restore so startService can decrement
+        startService(g, fixture, now);
+      } else {
+        free[fixture]++;          // no taker
+      }
+
+    } else if (fixture === "men-toilet") {
+      if (menQueue.length > 0) {
+        const g = menQueue.shift();
+        free[fixture]++;
+        startService(g, fixture, now);
+      } else {
+        free[fixture]++;
+      }
+
+    } else if (fixture === "women-toilet") {
+      if (womenQueue.length > 0) {
+        const g = womenQueue.shift();
+        free[fixture]++;
+        startService(g, fixture, now);
+      } else {
+        free[fixture]++;
+      }
+
+    } else { // unisex: global FCFS — longest-waiting across both queues
+      const fm = menQueue[0]   || null;
+      const fw = womenQueue[0] || null;
+      let winner = null;
+
+      if      (fm && fw)  winner = (fm.queueTime <= fw.queueTime) ? menQueue.shift() : womenQueue.shift();
+      else if (fm)        winner = menQueue.shift();
+      else if (fw)        winner = womenQueue.shift();
+
+      free[fixture]++;
+      if (winner) startService(winner, fixture, now);
+    }
+  }
+
+  // ── Seed arrival events ──
+  let clock = 0;
+  for (let i = 0; i < numGuests; i++) {
+    clock += drawSample(dist, meanIAT);
+    const r = Math.random();
+    const gType = r < pMS ? "man-standing" : r < pMS + pMT ? "man-sitting" : "woman";
+    heap.push({ time: clock, type: "ARR", gType });
+  }
+
+  let simEnd = 0;
+
+  // ── Main event loop ──
+  while (heap.size > 0) {
+    const ev = heap.pop();
+    const now = ev.time;
+    simEnd = now;
+
+    if (ev.type === "ARR") {
+      const guest = { type: ev.gType, queueTime: now };
+      if (!tryAssignArrival(guest, now)) {
+        if (ev.gType === "woman") womenQueue.push(guest);
+        else                      menQueue.push(guest);
+      }
+    } else {
+      // DEPARTURE: fixture is currently marked busy (free[fix] not yet restored)
+      tryAssignFromQueue(ev.fixture, now);
+    }
+  }
+
+  // ── Compile statistics ──
+  function sumStats(arr) {
+    if (!arr.length) return { n: 0, avg: 0, avgAll: 0, max: 0, pctWaited: 0 };
+    const n      = arr.length;
+    const total  = arr.reduce((a, b) => a + b, 0);
+    const waited = arr.filter(x => x > 1e-9);
+    const avg    = waited.length > 0 ? waited.reduce((a, b) => a + b, 0) / waited.length : 0;
+    const avgAll = total / n;
+    const max    = Math.max(...arr);
+    const pct    = waited.length / n;
+    return { n, avg, avgAll, max, pctWaited: pct };
+  }
+
+  function utilization(key, count) {
+    if (count === 0) return null;
+    return busy[key] / (count * simEnd);
+  }
+
+  return {
+    men:         sumStats(waitMen),
+    women:       sumStats(waitWomen),
+    unisexServed,
+    util: {
+      urinal:       utilization("urinal",        numUrinals),
+      menToilet:    utilization("men-toilet",    numMenToilets),
+      womenToilet:  utilization("women-toilet",  numWomenToilets),
+      unisex:       utilization("unisex",        numUnisex),
+    },
+    simDurationMinutes: simEnd,
+    totalGuests: numGuests,
+  };
+}
+
+// ─────────────────────────────────────────────────────────
+// Run button
+// ─────────────────────────────────────────────────────────
+
+document.getElementById("runBtn").addEventListener("click", function () {
+  const numGuests = parseInt(document.getElementById("numGuests").value);
+  const guestWarn = document.getElementById("guestWarn");
+
+  if (!numGuests || numGuests < 1 || numGuests > 999999) {
+    guestWarn.textContent = "⚠ Please enter a number between 1 and 999,999.";
+    document.getElementById("numGuests").classList.add("err");
+    return;
+  }
+  guestWarn.textContent = "";
+  document.getElementById("numGuests").classList.remove("err");
+
+  // Space constraint check
+  const total = Math.max(1, parseFloat(document.getElementById("totalStalls").value) || 16);
+  const ur = Math.max(0, parseInt(document.getElementById("numUrinals").value)      || 0);
+  const mt = Math.max(0, parseInt(document.getElementById("numMenToilets").value)   || 0);
+  const wt = Math.max(0, parseInt(document.getElementById("numWomenToilets").value) || 0);
+  const ux = Math.max(0, parseInt(document.getElementById("numUnisex").value)       || 0);
+  const used = ur * 0.5 + mt + wt + ux * 2;
+
+  if (used > total + 0.001) {
+    alert(`Space constraint not satisfied (using ${used} of ${total} spaces). Please reduce fixture counts before running.`);
+    return;
+  }
+
+  const btn = document.getElementById("runBtn");
+  btn.disabled = true;
+  btn.textContent = "Running…";
+  const pw = document.getElementById("progressWrap");
+  const pb = document.getElementById("progressBar");
+  pw.classList.add("visible");
+  pb.style.width = "25%";
+
+  setTimeout(() => {
+    pb.style.width = "65%";
+    const cfg = {
+      numGuests,
+      dist: document.getElementById("distSelect").value,
+      lambdaMS: parseFloat(document.getElementById("lambdaMS").value) || 0,
+      lambdaMT: parseFloat(document.getElementById("lambdaMT").value) || 0,
+      lambdaF:  parseFloat(document.getElementById("lambdaF").value)  || 0,
+      tMS:      parseFloat(document.getElementById("tMS").value)      || 1,
+      tMT:      parseFloat(document.getElementById("tMT").value)      || 5,
+      tF:       parseFloat(document.getElementById("tF").value)       || 3,
+      numUrinals: ur, numMenToilets: mt, numWomenToilets: wt, numUnisex: ux,
+    };
+
+    const result = runSimulation(cfg);
+    pb.style.width = "100%";
+
+    setTimeout(() => {
+      displayResults(result, cfg);
+      btn.disabled = false;
+      btn.textContent = "▶ Run Simulation";
+      pw.classList.remove("visible");
+      pb.style.width = "0%";
+    }, 150);
+  }, 40);
+});
+
+// ─────────────────────────────────────────────────────────
+// Display results
+// ─────────────────────────────────────────────────────────
+
+function displayResults(r, cfg) {
+  if (!r) return;
+  const area = document.getElementById("resultsArea");
+  area.classList.add("visible");
+  area.scrollIntoView({ behavior: "smooth", block: "start" });
+
+  const hrs = (r.simDurationMinutes / 60).toFixed(2);
+  document.getElementById("simSummaryLine").textContent =
+    `Simulated ${r.totalGuests.toLocaleString()} guests over ${hrs} hours of venue time.`;
+
+  // Men
+  set("r-men-n",        r.men.n.toLocaleString());
+  setWait("r-men-avgwait",      r.men.avg,    1);
+  setWait("r-men-avgwait-all",  r.men.avgAll, 1);
+  setWait("r-men-maxwait",      r.men.max,    3);
+  set("r-men-pct",       fmtPct(r.men.pctWaited));
+  setUtil("r-urinal-util",      r.util.urinal);
+  setUtil("r-mentoilet-util",   r.util.menToilet);
+
+  // Women
+  set("r-women-n",       r.women.n.toLocaleString());
+  setWait("r-women-avgwait",      r.women.avg,    1);
+  setWait("r-women-avgwait-all",  r.women.avgAll, 1);
+  setWait("r-women-maxwait",      r.women.max,    3);
+  set("r-women-pct",     fmtPct(r.women.pctWaited));
+  setUtil("r-womentoilet-util", r.util.womenToilet);
+
+  // Unisex
+  const uxCard = document.getElementById("unisexResultCard");
+  if (cfg.numUnisex > 0) {
+    uxCard.style.display = "block";
+    set("r-unisex-n", r.unisexServed.toLocaleString());
+    setUtil("r-unisex-util", r.util.unisex);
+  } else {
+    uxCard.style.display = "none";
+  }
+
+  // Overall
+  const totalN  = r.men.n + r.women.n;
+  const overAvg = totalN > 0
+    ? (r.men.avg * r.men.n + r.women.avg * r.women.n) / totalN
+    : 0;
+  const overMax = Math.max(r.men.max, r.women.max);
+
+  set("r-total-n",    r.totalGuests.toLocaleString());
+  setWait("r-overall-avg", overAvg, 1);
+  setWait("r-overall-max", overMax, 3);
+  set("r-simtime",    `${hrs} hours`);
+}
+
+function set(id, text) {
+  document.getElementById(id).textContent = text;
+}
+
+function setWait(id, minutes, warnAt) {
+  const el = document.getElementById(id);
+  el.textContent = fmtMin(minutes);
+  el.className = "stat-value " + (minutes > warnAt ? "warn" : "ok");
+}
+
+function setUtil(id, u) {
+  const el = document.getElementById(id);
+  if (u === null) { el.textContent = "N/A"; el.className = "stat-value"; return; }
+  el.textContent = fmtPct(u);
+  el.className = "stat-value " + (u > 0.85 ? "warn" : "ok");
+}
+</script>
+
+
+</body></html>
