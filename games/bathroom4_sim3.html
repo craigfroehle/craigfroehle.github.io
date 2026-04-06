@@ -314,6 +314,9 @@
 </header>
 
 <!-- Simulation Size -->
+
+<p>This is a bathroom-planning simulator, such as for a music venue or large theater. You can determine how much space you have (# of stalls) and then determine how to allocate that space to achieve the best waiting times, or you can target reasonable waiting times to help you determine how much space you will need. Or you can use it to explore how arrival rates, service times, and the number of servers influence waiting times. Finally, because of the mixed servers -- some fixtures can accommodate more than one kind of guest, and some guests can use more than one kind of fixture -- there are multiple trade-offs to consider. Note that default values are not based on empirical data.</p>
+<p><br></p>
 <div class="panel">
   <div class="panel-header"><h2>Simulation Parameters</h2></div>
   <div class="grid-2" style="max-width:680px">
@@ -397,12 +400,8 @@
   </div>
 
   <p class="note" style="margin-top:1rem">
-    Inter-arrival times and service times are drawn from the selected distribution (see Simulation Parameters),
-    with a hard cap of 20 minutes — values exceeding the cap are redrawn.
-    All men share a single FCFS queue. Standing men take the first available urinal,
-    men's toilet, or unisex room (in that order). Sitting men and women take the first
-    available toilet or unisex room. When a unisex room frees up, it goes to whichever
-    waiting guest — man or woman — has been waiting longest.
+    Inter-arrival times and service times are drawn from the selected distribution (see Simulation Parameters), with a hard cap of 20 minutes — values exceeding the cap are regenerated. All men share a single FCFS queue. Standing men take the first available urinal,
+    men's toilet, or unisex room (in that order). Sitting men and women take the first available toilet or unisex room. When a unisex room frees up, it goes to whichever guest -- man or woman -- has been waiting longest.
   </p>
 </div>
 
