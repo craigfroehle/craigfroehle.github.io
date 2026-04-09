@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Craig Froehle, Ph.D. | University of Cincinnati</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red:        #e00122;
+      --red-dark:   #a8001a;
+      --black:      #111111;
+      --dark:       #222222;
+      --mid:        #666666;
+      --light:      #999999;
+      --rule:       #e8e8e8;
+      --bg:         #ffffff;
+      --bg-subtle:  #f9f9f9;
+      --sans:       'DM Sans', system-ui, sans-serif;
+      --mono:       'DM Mono', monospace;
+      --max:        860px;
+      --pad:        clamp(1.5rem, 5vw, 3rem);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      font-size: 1.0625rem;
+      line-height: 1.7;
+      color: var(--dark);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── TOP BANNER ── */
+    .banner {
+      background: var(--black);
+      height: 5px;
+    }
+    .banner-inner {
+      height: 100%;
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+    }
+    .banner-red  { background: var(--red); flex: 2; }
+    .banner-dark { background: #2a2a2a;    flex: 1; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--rule);
+    }
+    .nav-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--black);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: var(--mid);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--red); }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: clamp(2.75rem, 7vw, 4.5rem) var(--pad) 0rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 3rem;
+      align-items: start;
+	}
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.1rem;
+    }
+    .uc-logo { height: 60px; width: auto; }
+    .hero-dept {
+      font-size: 0.88rem;
+      font-weight: 300;
+      color: var(--mid);
+      border-left: 2px solid var(--red);
+      padding-left: 0.65rem;
+      line-height: 1.4;
+      letter-spacing: 0.01em;
+    }
+
+    h1 {
+      font-family: var(--sans);
+      font-size: clamp(1.9rem, 4.5vw, 2.6rem);
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--black);
+      margin-bottom: 0.3rem;
+      white-space: nowrap;
+    }
+    .hero-title {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--mid);
+      margin-bottom: 1.4rem;
+      letter-spacing: 0.01em;
+    }
+    .hero-bio {
+      font-size: 0.96rem;
+      font-weight: 300;
+      color: var(--dark);
+      line-height: 1.75;
+      max-width: 500px;
+      margin-bottom: 0.25rem;
+    }
+    .hero-bio a {
+      color: var(--red);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(224,1,34,0.3);
+      transition: border-color 0.15s;
+    }
+    .hero-bio a:hover { border-color: var(--red); }
+
+    .hero-links { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.45rem 1.1rem;
+      font-family: var(--sans);
+      font-size: 0.8rem;
+      font-weight: 400;
+      text-decoration: none;
+      border-radius: 3px;
+      transition: all 0.15s;
+      white-space: nowrap;
+      letter-spacing: 0.01em;
+    }
+    .btn-primary {
+      background: var(--red);
+      color: #fff;
+      border: 1.5px solid var(--red);
+    }
+    .btn-primary:hover { background: var(--red-dark); border-color: var(--red-dark); }
+    .btn-outline {
+      background: var(--rule);
+      color: var(--dark);
+      border: 1.5px solid var(--rule);
+    }
+    .btn-outline:hover { border-color: var(--red); color: var(--red); }
+
+    /* Photo */
+    .photo-frame {
+      width: clamp(130px, 16vw, 175px);
+      height: clamp(130px, 16vw, 175px);
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid var(--rule);
+      flex-shrink: 0;
+    }
+    .photo-frame img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+	.hero-links-bar {
+	  max-width: var(--max);
+	  margin: 0 auto;
+	  padding: 0.25rem var(--pad);
+	}
+	.hero-links-inner {
+	  display: flex;
+	  flex-wrap: wrap;
+	  gap: 0.5rem;
+	}
+	
+    /* ── DIVIDER ── */
+    .divider {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+    }
+    .divider hr { border: none; border-top: 1px solid var(--rule); }
+
+    /* ── SECTIONS ── */
+    section {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 3rem) var(--pad);
+    }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.67rem;
+      font-weight: 500;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.4rem;
+    }
+    h2 {
+      font-size: 1.55rem;
+      font-weight: 600;
+      color: var(--black);
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    /* ── RESEARCH THEMES ── */
+    .themes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+    }
+    .theme-card {
+      border: 1px solid var(--rule);
+      border-top: 3px solid var(--red);
+      border-radius: 3px;
+      padding: 1.25rem 1.35rem;
+      background: var(--bg-subtle);
+    }
+    .theme-card h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 0.45rem;
+      line-height: 1.3;
+    }
+    .theme-card p {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: var(--mid);
+      line-height: 1.65;
+    }
+
+    /* ── PUBLICATIONS ── */
+    .pub-list { display: flex; flex-direction: column; }
+    .pub-item {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 0 1rem;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid var(--rule);
+      align-items: baseline;
+    }
+    .pub-item:first-child { border-top: 1px solid var(--rule); }
+    .pub-year {
+      font-family: var(--mono);
+      font-size: 0.67rem;
+      font-weight: 500;
+      color: var(--red);
+      padding-top: 0.18rem;
+    }
+    .pub-title {
+      font-size: 0.93rem;
+      font-weight: 400;
+      color: var(--black);
+      line-height: 1.45;
+      margin-bottom: 0.2rem;
+    }
+    .pub-link {
+      color: var(--black);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rule);
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .pub-link:hover { color: var(--red); border-color: rgba(224,1,34,0.4); }
+    .pub-meta {
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: var(--mid);
+      font-style: italic;
+    }
+    .pub-badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      font-weight: 500;
+      background: var(--red);
+      color: #fff;
+      padding: 1px 5px;
+      border-radius: 2px;
+      margin-left: 0.5rem;
+      font-style: normal;
+      vertical-align: middle;
+      letter-spacing: 0.03em;
+    }
+    .scholar-cta { margin-top: 1.25rem; }
+
+    /* ── TEACHING CARDS ── */
+    .teaching-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+    .theme-card {
+      border: 1px solid var(--rule);
+      border-top: 3px solid var(--red);
+      border-radius: 3px;
+      padding: 1.25rem 1.35rem;
+      background: var(--bg-subtle);
+    }
+    .theme-card h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 0.45rem;
+      line-height: 1.3;
+    }
+    .theme-card p {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: var(--mid);
+      line-height: 1.65;
+    }
+
+    /* ── CONNECT ── */
+    .connect-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
+      gap: 0.75rem;
+    }
+    .connect-card {
+      background: var(--bg-subtle);
+      border: 1px solid var(--rule);
+      border-radius: 3px;
+      padding: 1rem 1.2rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      transition: all 0.15s;
+    }
+    .connect-card:hover {
+      border-color: var(--red);
+      background: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    }
+    .connect-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--red);
+      flex-shrink: 0;
+    }
+    .connect-info { flex: 1; min-width: 0; }
+    .connect-name {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--black);
+      display: block;
+      margin-bottom: 1px;
+    }
+    .connect-desc {
+      font-size: 0.75rem;
+      font-weight: 300;
+      color: var(--light);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 1.5rem var(--pad);
+    }
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .footer-left {
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: var(--light);
+    }
+    .footer-right {
+      font-size: 0.78rem;
+      font-weight: 300;
+    }
+    .footer-right a {
+      color: var(--mid);
+      text-decoration: none;
+    }
+    .footer-right a:hover { color: var(--red); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .hero { grid-template-columns: 1fr; gap: 1.75rem; }
+      .hero-photo { order: -1; }
+      .photo-frame { width: 100px; height: 100px; }
+      h1 { white-space: normal; }
+      .nav-links { gap: 1.25rem; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+    }
+
+    /* ── ANIMATION ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero > * { animation: fadeUp 0.55s ease both; }
+    .hero > *:last-child { animation-delay: 0.08s; }
+  </style>
+</head>
+<body>
+
+<div class="banner">
+  <div class="banner-inner">
+    <div class="banner-red"></div>
+    <div class="banner-dark"></div>
+  </div>
+</div>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-name" href="#top">Craig Froehle, Ph.D.</a>
+    <ul class="nav-links">
+      <li><a href="#research">• Research</a></li>
+      <li><a href="#publications">• Publications</a></li>
+      <li><a href="#teaching">• Teaching</a></li>
+      <li><a href="#connect">• Connect</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div id="top" class="hero">
+  <div class="hero-text">
+    <div class="hero-eyebrow">
+      <img class="uc-logo" src="uclogo.png" alt="University of Cincinnati" />
+      <div class="hero-dept">Carl H. Lindner College of Business<br>Operations, Business Analytics &amp; Information Systems</div>
+    </div>
+    <h1>Craig Froehle, Ph.D.</h1>
+    <p class="hero-title">Professor of Operations Management &middot; University of Cincinnati</p>
+    <p class="hero-bio">
+      I study how organizations design, deliver, and improve services with a focus on healthcare operations, technology&rsquo;s role in shaping service experiences, and ethical operations. <a href="#research">My research</a> appears in <em>Production and Operations
+      Management</em>, <em>Journal of Operations Management</em>, <em>Milbank Quarterly</em>, and other leading journals.<br><br>I have a faculty appointment in the UC Department of Emergency Medicine. I also serve as an Associate/Senior Editor for <em>Production and Operations Management</em>, the <em>Journal of Operations Management</em>, and <em>Health Care Management Science</em>. In 2008, I co-founded the <a href="https://www.poms.org/colleges/hom" target="_blank">POMS College of Healthcare Operations Management.</a><br><br>As the Ohio Eminent Teaching Fellow at the <a href="https://www.business.uc.edu/" target="_blank">UC Lindner College of Business</a>, I teach Service Operations and Operations Strategy courses as well as doctoral seminars and new technology-related courses as needed. I also develop teaching games, such as <a href="https://edgame.edutool.org/" target="_blank">EMERGENCY!</a>, which is used in business schools and medical institutions across North America.<br><br>
+<!--      I also develop educational simulation games through
+      <a href="https://happyharpygames.com" target="_blank">Happy Harpy Games</a>,
+      used at business schools across North America. -->
+  </div>
+  <div class="hero-photo">
+    <div class="photo-frame">
+      <img src="headshot.jpg" alt="Craig Froehle, Ph.D." />
+    </div>
+  </div>
+</div>
+<div class="divider"><hr /></div>
+<div class="hero-links-bar">
+  <div class="hero-links-inner">
+	  <a class="btn btn-primary" href="mailto:craig.froehle@uc.edu">craig.froehle@uc.edu</a>
+      <a class="btn btn-outline" href="https://scholar.google.com/citations?hl=en&user=OvAL8scAAAAJ" target="_blank">Google Scholar</a>
+      <a class="btn btn-outline" href="https://ssrn.com/author=2807785" target="_blank">SSRN</a>
+      <a class="btn btn-outline" href="https://www.linkedin.com/in/craigfroehle/" target="_blank">LinkedIn</a>
+      <a class="btn btn-outline" href="https://craigfroehle.github.io/" target="_blank">GitHub</a>
+	  <a class="btn btn-primary" href="https://business.uc.edu/Craig-Froehle" target="_blank">www.uc.edu</a>
+  </div>
+</div>
+
+<div class="divider"><hr /></div>
+
+<!-- RESEARCH -->
+<section id="research">
+  <p class="section-label">Research Focus</p>
+  <h2>Areas of Inquiry</h2>
+  <div class="themes-grid">
+    <div class="theme-card">
+      <h3>Healthcare Operations & Care Delivery</h3>
+      <p>Improving efficiency, quality, and equity in care delivery; from patient flow to operational decision-making and personnel management in emergency departments and other complex health systems.</p>
+    </div>
+    <div class="theme-card">
+      <h3>Service Operations Management</h3>
+      <p>How firms design and manage service processes, develop new services, deploy new technologies, and manage waiting to improve both operational performance and customer experiences.</p>
+    </div>
+    <div class="theme-card">
+      <h3>Ethical Operations</h3>
+      <p>How ethical issues, such as fairness and justice, affect operational decision-making, how ethics can be embedded in decision-guiding algorithms, and why organizations may be perceived as ethical or not.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><hr /></div>
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <p class="section-label">Scholarship</p>
+  <h2>Selected Publications</h2>
+  <div class="pub-list">
+
+    <div class="pub-item">
+      <span class="pub-year">2004</span>
+      <div>
+        <div class="pub-title"><a class="pub-link" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=OvAL8scAAAAJ&citation_for_view=OvAL8scAAAAJ:d1gkVwhDpl0C" target="_blank">New Measurement Scales for Evaluating Perceptions of the Technology-Mediated Customer Service Experience</a></div>
+        <div class="pub-meta">Journal of Operations Management &mdash; with A.V. Roth</div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <span class="pub-year">2006</span>
+      <div>
+        <div class="pub-title"><a class="pub-link" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=OvAL8scAAAAJ&citation_for_view=OvAL8scAAAAJ:u5HHmVD_uO8C" target="_blank">Foundations and Implications of a Proposed Unified Services Theory</a><span class="pub-badge">&gt;1k citations</span></div>
+        <div class="pub-meta">Production and Operations Management &mdash; with S.E. Sampson</div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <span class="pub-year">2006</span>
+      <div>
+        <div class="pub-title"><a class="pub-link" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=OvAL8scAAAAJ&citation_for_view=OvAL8scAAAAJ:qjMakFHDy7sC" target="_blank">Service Personnel, Technology, and Their Interaction in Influencing Customer Satisfaction</a></div>
+        <div class="pub-meta">Decision Sciences</div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <span class="pub-year">2007</span>
+      <div>
+        <div class="pub-title"><a class="pub-link" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=OvAL8scAAAAJ&citation_for_view=OvAL8scAAAAJ:2osOgNQ5qMEC" target="_blank">A Resource-Process Framework of New Service Development</a></div>
+        <div class="pub-meta">Production and Operations Management &mdash; with A.V. Roth</div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <span class="pub-year">2010</span>
+      <div>
+        <div class="pub-title"><a class="pub-link" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=OvAL8scAAAAJ&citation_for_view=OvAL8scAAAAJ:UeHWp8X0CEIC" target="_blank">The Influence of Context on Quality Improvement Success in Health Care: A Systematic Review</a></div>
+        <div class="pub-meta">The Milbank Quarterly &mdash; with H.C. Kaplan et al.</div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <span class="pub-year">2012</span>
+      <div>
+        <div class="pub-title"><a class="pub-link" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=OvAL8scAAAAJ&citation_for_view=OvAL8scAAAAJ:IjCSPb-OGe4C" target="_blank">The Model for Understanding Success in Quality (MUSIQ): Building a Theory of Context in Healthcare Quality Improvement</a></div>
+        <div class="pub-meta">BMJ Quality &amp; Safety &mdash; with H.C. Kaplan, L.P. Provost &amp; P.A. Margolis</div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <span class="pub-year">2014</span>
+      <div>
+        <div class="pub-title"><a class="pub-link" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=OvAL8scAAAAJ&citation_for_view=OvAL8scAAAAJ:3fE2CSJIrl8C" target="_blank">Applications of Business Analytics in Healthcare</a></div>
+        <div class="pub-meta">Business Horizons &mdash; with M.J. Ward &amp; K.A. Marsolo</div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <span class="pub-year">2014</span>
+      <div>
+        <div class="pub-title"><a class="pub-link" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=OvAL8scAAAAJ&citation_for_view=OvAL8scAAAAJ:UebtZRa9Y70C" target="_blank">Interruption and Forgetting in Knowledge-Intensive Service Environments</a></div>
+        <div class="pub-meta">Production and Operations Management &mdash; with D.L. White</div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <span class="pub-year">2015</span>
+      <div>
+        <div class="pub-title"><a class="pub-link" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=OvAL8scAAAAJ&citation_for_view=OvAL8scAAAAJ:kNdYIx-mwKoC" target="_blank">The Nature and Necessity of Operational Flexibility in the Emergency Department</a></div>
+        <div class="pub-meta">Annals of Emergency Medicine &mdash; with M.J. Ward, Y.B. Ferrand et al.</div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <span class="pub-year">2018</span>
+      <div>
+        <div class="pub-title"><a class="pub-link" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=OvAL8scAAAAJ&citation_for_view=OvAL8scAAAAJ:_Qo2XoVZTnwC" target="_blank">Quality and Efficiency of the Clinical Decision-Making Process: Information Overload and Emphasis Framing</a></div>
+        <div class="pub-meta">Production and Operations Management &mdash; with L.F. Laker, J.B. Windeler &amp; C.J. Lindsell</div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <span class="pub-year">2021</span>
+      <div>
+        <div class="pub-title"><a class="pub-link" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=OvAL8scAAAAJ&citation_for_view=OvAL8scAAAAJ:NMxIlDl6LWMC" target="_blank">Unequal but Fair: Incorporating Distributive Justice in Operational Allocation Models</a></div>
+        <div class="pub-meta">Production and Operations Management &mdash; with D. Rea, S.S. Masterson et al.</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="scholar-cta">
+    <a class="btn btn-outline" href="https://scholar.google.com/citations?hl=en&user=OvAL8scAAAAJ" target="_blank">Full list on Google Scholar &rarr;</a>
+  </div>
+</section>
+
+<div class="divider"><hr /></div>
+
+<!-- TEACHING -->
+<section id="teaching">
+  <p class="section-label">Teaching</p>
+  <h2>Courses and Topics</h2>
+  <div class="teaching-grid">
+    <div class="theme-card">
+      <h3>OM4088 Services Management</h3>
+      <p>A survey of key operational, strategic, managerial, and marketing topics critical to success in service industries, with an emphasis on service development, design, and analysis.</p>
+    </div>
+    <div class="theme-card">
+      <h3>OM5085 Operations Strategy</h3>
+      <p>A case study-based examination of strategic operations topics, including international expansion, supply chains, services, technology, and environmental issues.</p>
+    </div>
+    <div class="theme-card">
+      <h3>Doctoral Seminars</h3>
+      <p>As needed; recent seminars have focused on healthcare operations and service operations topics.</p>
+    </div>
+    <div class="theme-card">
+      <h3>Educational Games</h3>
+      <p>EMERGENCY! is available both in <a href="https://www.happyharpygames.com/p/emergency.html" target="_blank">boardgame format</a> and <a href="https://edgame.edutool.org/">online</a>; other learning games <a href="https://craigfroehle.github.io/games" target="_blank">can be found here</a></p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><hr /></div>
+
+<!-- CONNECT -->
+<section id="connect">
+  <p class="section-label">Get in Touch</p>
+  <h2>Connect &amp; Explore</h2>
+  <div class="connect-grid">
+    <a class="connect-card" href="mailto:craig.froehle@uc.edu">
+      <div class="connect-dot"></div>
+      <div class="connect-info">
+        <span class="connect-name">Email</span>
+        <span class="connect-desc">craig.froehle@uc.edu</span>
+      </div>
+    </a>
+    <a class="connect-card" href="https://business.uc.edu/Craig-Froehle" target="_blank">
+      <div class="connect-dot"></div>
+      <div class="connect-info">
+        <span class="connect-name">UC Lindner</span>
+        <span class="connect-desc">My university profile</span>
+      </div>
+    </a>
+    <a class="connect-card" href="https://scholar.google.com/citations?hl=en&user=OvAL8scAAAAJ" target="_blank">
+      <div class="connect-dot"></div>
+      <div class="connect-info">
+        <span class="connect-name">Google Scholar</span>
+        <span class="connect-desc">Publications &amp; citations</span>
+      </div>
+    </a>
+    <a class="connect-card" href="https://www.linkedin.com/in/craigfroehle/" target="_blank">
+      <div class="connect-dot"></div>
+      <div class="connect-info">
+        <span class="connect-name">LinkedIn</span>
+        <span class="connect-desc">My professional profile</span>
+      </div>
+    </a>
+    <a class="connect-card" href="https://ssrn.com/author=2807785" target="_blank">
+      <div class="connect-dot"></div>
+      <div class="connect-info">
+        <span class="connect-name">SSRN</span>
+        <span class="connect-desc">Select working papers</span>
+      </div>
+    </a>
+    <a class="connect-card" href="https://craigfroehle.github.io/" target="_blank">
+      <div class="connect-dot"></div>
+      <div class="connect-info">
+        <span class="connect-name">GitHub</span>
+        <span class="connect-desc">Software projects &amp; code</span>
+      </div>
+    </a>
+<!--    <a class="connect-card" href="https://happyharpygames.com" target="_blank">
+      <div class="connect-dot"></div>
+      <div class="connect-info">
+        <span class="connect-name">Happy Harpy Games</span>
+        <span class="connect-desc">Educational simulations</span>
+      </div>
+    </a> -->
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <span class="footer-left">&copy; 2026 Craig Froehle, Ph.D. &middot; University of Cincinnati</span>
+
+  </div>
+</footer>
+
+</body>
+</html>
