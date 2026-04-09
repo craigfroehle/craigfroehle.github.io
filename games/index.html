@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Educational Games | Craig Froehle, Ph.D.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red:        #e00122;
+      --red-dark:   #a8001a;
+      --black:      #111111;
+      --dark:       #222222;
+      --mid:        #666666;
+      --light:      #999999;
+      --rule:       #e8e8e8;
+      --bg:         #ffffff;
+      --bg-subtle:  #f9f9f9;
+      --sans:       'DM Sans', system-ui, sans-serif;
+      --mono:       'DM Mono', monospace;
+      --max:        860px;
+      --pad:        clamp(1.5rem, 5vw, 3rem);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      font-size: 1.0625rem;
+      line-height: 1.7;
+      color: var(--dark);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── TOP BANNER ── */
+    .banner { background: var(--black); height: 5px; }
+    .banner-inner {
+      height: 100%;
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+    }
+    .banner-red  { background: var(--red); flex: 2; }
+    .banner-dark { background: #2a2a2a;    flex: 1; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--rule);
+    }
+    .nav-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--black);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .nav-back {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: var(--mid);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .nav-back:hover { color: var(--red); }
+    .nav-back::before { content: '\2190'; }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: clamp(2.5rem, 6vw, 4rem) var(--pad) clamp(1.5rem, 4vw, 2.5rem);
+      border-bottom: 1px solid var(--rule);
+    }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.67rem;
+      font-weight: 500;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.4rem;
+    }
+    h1 {
+      font-family: var(--sans);
+      font-size: clamp(1.7rem, 4vw, 2.4rem);
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--black);
+      margin-bottom: 0.75rem;
+    }
+    .page-intro {
+      font-size: 0.96rem;
+      font-weight: 300;
+      color: var(--mid);
+      line-height: 1.75;
+      max-width: 560px;
+    }
+    .page-intro a {
+      color: var(--red);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(224,1,34,0.3);
+      transition: border-color 0.15s;
+    }
+    .page-intro a:hover { border-bottom-color: var(--red); }
+
+    /* ── GAMES GRID ── */
+    .games-section {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 3rem) var(--pad);
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .game-card {
+      border: 1px solid var(--rule);
+      border-top: 3px solid var(--red);
+      border-radius: 3px;
+      background: var(--bg-subtle);
+      padding: 1.5rem 1.5rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .game-card-header { display: flex; flex-direction: column; gap: 0.2rem; }
+
+    .game-tag {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--red);
+    }
+
+    .game-card h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--black);
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .game-card p {
+      font-size: 0.88rem;
+      font-weight: 300;
+      color: var(--mid);
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    .game-card-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.25rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.4rem 1rem;
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      font-weight: 400;
+      text-decoration: none;
+      border-radius: 3px;
+      transition: all 0.15s;
+      white-space: nowrap;
+      letter-spacing: 0.01em;
+    }
+    .btn-primary {
+      background: var(--red);
+      color: #fff;
+      border: 1.5px solid var(--red);
+    }
+    .btn-primary:hover { background: var(--red-dark); border-color: var(--red-dark); }
+    .btn-outline {
+      background: var(--rule);
+      color: var(--dark);
+      border: 1.5px solid var(--rule);
+    }
+    .btn-outline:hover { border-color: var(--red); color: var(--red); background: transparent; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 1.5rem var(--pad);
+      margin-top: 1rem;
+    }
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .footer-left {
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: var(--light);
+    }
+    .footer-right {
+      font-size: 0.78rem;
+      font-weight: 300;
+    }
+    .footer-right a { color: var(--mid); text-decoration: none; }
+    .footer-right a:hover { color: var(--red); }
+
+    @media (max-width: 600px) {
+      .games-grid { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .page-header { animation: fadeUp 0.5s ease both; }
+    .game-card { animation: fadeUp 0.5s ease both; }
+    .game-card:nth-child(2) { animation-delay: 0.07s; }
+    .game-card:nth-child(3) { animation-delay: 0.14s; }
+  </style>
+</head>
+<body>
+
+<div class="banner">
+  <div class="banner-inner">
+    <div class="banner-red"></div>
+    <div class="banner-dark"></div>
+  </div>
+</div>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-name" href="../index.html">Craig Froehle, Ph.D.</a>
+    <a class="nav-back" href="../index.html">Back to main page</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <p class="section-label">Teaching Tools</p>
+  <h1>Educational &amp; Learning Games</h1>
+  <p class="page-intro">These games and simulations are designed for use in business and operations management courses. They make abstract concepts concrete &mdash; putting students in the role of decision-maker and letting them feel the consequences of their choices. Several are developed and distributed in collaboration with <a href="https://www.happyharpygames.com" target="_blank">Happy Harpy Games</a>.</p>
+</div>
+
+<div class="games-section">
+  <div class="games-grid">
+
+    <div class="game-card">
+      <div class="game-card-header">
+        <span class="game-tag">Digital Simulation</span>
+        <h2>EMERGENCY!</h2>
+      </div>
+      <p>A web-based simulation set in a busy emergency department. Students manage patient flow, staffing, and capacity decisions in real time, experiencing firsthand the operational consequences of demand variability and resource constraints. Useful for teaching queueing theory, capacity flexibility, and service operations concepts.</p>
+      <div class="game-card-links">
+        <a class="btn btn-primary" href="https://edgame.edutool.org" target="_blank">Play online</a>
+        <a class="btn btn-outline" href="https://www.happyharpygames.com/p/emergency.html" target="_blank">Board game version</a>
+      </div>
+    </div>
+
+    <div class="game-card">
+      <div class="game-card-header">
+        <span class="game-tag">Browser Simulation</span>
+        <h2>Facility Design Simulator</h2>
+      </div>
+      <p>A lightweight simulation tool that models how different levels of resources affect customer waiting times, set in the context of a large venue&rsquo;s restroom facilities. A quick, accessible way to introduce students to the relationship between capacity, utilization, and wait times without requiring heavy technical background.</p>
+      <div class="game-card-links">
+        <a class="btn btn-primary" href="bathroom4_sim3.html">Launch simulator</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span class="footer-left">&copy; 2026 Craig Froehle, Ph.D. &middot; University of Cincinnati</span>
+    <span class="footer-right"><a href="mailto:craig.froehle@uc.edu">craig.froehle@uc.edu</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
